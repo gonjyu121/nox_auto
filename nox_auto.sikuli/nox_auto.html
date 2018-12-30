@@ -1,0 +1,1270 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>nox_auto.sikuli</h2> <a href="nox_auto.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt"># -*- coding:utf-8</span>
+<span class="kw">import</span> sys
+<span class="kw">import</span> inspect
+<span class="kw">from</span> sikuli <span class="kw">import</span> *
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+Settings.UserLogs
+Settings.UserLogPrefix = <span class="str">"#"</span>
+Settings.UserLogTime = True
+Settings.ActionLogs=False <span class="cmt">#clickログなどを取らない</span>
+<span class="cmt"># pythonにはsys.exit()があるが、SikuliXの内部初期化のためにexit()を使わなくてはならない。</span>
+sys.path.append(getBundlePath()+<span class="str">"\module.sikuli"</span>)
+<span class="kw">import</span> module
+Debug.setUserLogFile(getBundlePath()+<span class="str">"\log.sikuli\log.py"</span>)
+logView = <span class="dig">1</span>
+
+<span class="cmt"># %Y/%m/%d %H:%M:%S.%f</span>
+<span class="kw">def</span> logging(func):
+    <span class="kw">def</span> wrapper(obj, *args, **kwds):
+        log(<span class="str">"class:{} def:{} {} args={} kwds={}"</span>.format(
+            obj.__class__.__name__, func.__name__, <span class="str">"START"</span>, args, kwds))
+        rtn = func(obj, *args, **kwds)
+        log(<span class="str">"class:{} def:{} {} return {}"</span>.format(
+            obj.__class__.__name__, func.__name__, <span class="str">"END"</span>, rtn))
+        <span class="kw">return</span> rtn
+    <span class="kw">return</span> wrapper
+
+<span class="cmt">#log出力</span>
+<span class="kw">def</span> log(str):
+    <span class="cmt">#print('{0} {1}'.format(datetime.now().strftime("%Y/%m/%d %H:%M:%S.%f"),str))</span>
+    lognew = datetime.now()
+    <span class="kw">print</span>(<span class="str">"{} {}"</span>.format(lognew.strftime(<span class="str">"%Y/%m/%d %H:%M:%S.%f"</span>),str))
+    Debug.user(<span class="str">"{} {}"</span>.format(lognew.strftime(<span class="str">"%f"</span>),str))
+
+
+<span class="kw">class</span> base():
+
+    <span class="kw">def</span> __init__(self,title,loop=<span class="dig">10</span>):
+        self.title = title
+        self.loop = loop
+        self.errflg = False
+
+    @logging
+    <span class="kw">def</span> end(self):
+        appEnd()
+
+    <span class="kw">def</span> title_start(self):
+        title_cw(self.title)
+
+
+<span class="kw">def</span> appStart():
+    <span class="cmt">#ピンポイントで実施したいメソッド（普段はコメントアウト）</span>
+    <span class="cmt">#ffrk("1514089721092.png").eventloop()</span>
+    <span class="cmt">#ffrk("1514089721092.png").normalDungeon()</span>
+    <span class="cmt">#valcone("1514086348155.png").quest()</span>
+    <span class="cmt">#valcone("1514086348155.png").tou()</span>
+    <span class="cmt">#valcone("1514086348155.png").eventQuest()</span>
+    <span class="cmt">#valcone("1514086348155.png").kourin()</span>
+    <span class="cmt">#sevenknights("1514594964037.png").battle()</span>
+    <span class="cmt">#sevenknights("1514594964037.png").arena()</span>
+    <span class="cmt">#ffbe("1514095893745.png").jigen()</span>
+    <span class="cmt">#sys.exit()</span>
+    <span class="cmt">#appEnd()</span>
+    <span class="cmt">#saoif("1514598609335.png").present()</span>
+    <span class="cmt">#gurablue("1515926876498.png").battle()</span>
+    <span class="cmt">#priconne("1519560720548.png").quest()</span>
+    <span class="cmt">#priconne("1519560720548.png").request()</span>
+    <span class="cmt">#linerevo("1513555048596.png").sugoroku()</span>
+    <span class="cmt">#linerevo("1513555048596.png").slotmachine()</span>
+    <span class="cmt">#linerevo("1513555048596.png").getruun()</span>
+    <span class="cmt">#browndust("1521942265355.png").missionloop()</span>
+    <span class="cmt">#browndust("1521942265355.png").akumaloop()</span>
+    <span class="cmt">#browndust("1521942265355.png").hosi1up()</span>
+    <span class="cmt">#gansoku("1533429583435.png").battleloop()</span>
+    <span class="cmt">#unison("1513703784166.png").baikyaku()</span>
+    <span class="cmt">#bassa("1538056210978.png").kyoutou()</span>
+    <span class="cmt">#bassa("1538056210978.png").kyoutoubosyu()</span>
+    <span class="cmt">#sinsangokusi("1538301963645.png").risemara1()</span>
+    <span class="cmt">#sinsangokusi("1538301963645.png").risemara2()</span>
+    <span class="cmt">#musouzan("1538957758024.png").renzoku()</span>
+    <span class="cmt">#sganrowa("1514088600576.png").battle()</span>
+    <span class="cmt">#sutarira(["1540625525349.png"]).risemara()</span>
+    <span class="cmt">#sutarira(["1540625525349.png"]).quest()</span>
+    <span class="cmt">#sutarira(["1540625525349.png"]).ibeboss()</span>
+    <span class="cmt">#sutarira(["1540625525349.png"]).vsreview()</span>
+
+
+    <span class="cmt">#for i in range(1000):</span>
+        <span class="cmt">#wi(Pattern("1533430977054.png").targetOffset(13,83),"1533431036302.png")</span>
+
+    <span class="cmt">#Android5.1</span>
+    <span class="cmt">#for i in range(1000):</span>
+        <span class="cmt">#update("1514504304305.png").main()</span>
+
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1000</span>):
+        <span class="cmt">#saocr("1514098562913.png").main()</span>
+        <span class="cmt">#本編ここから</span>
+        <span class="cmt">#sansuma(["1513607283682.png","1513489998537.png"]).main()</span>
+        <span class="cmt">#hit("1533429551473.png").main()</span>
+        sganrowa(<img src="1514088600576.png" />).main()
+        shadowverse(<img src="1514089340415.png" />).main()
+        battlegirl(<img src="1513776003005.png" />).main()
+        unison(<img src="1513703784166.png" />).main()
+        jojodr([<img src="1539428915641.png" />,<img src="1539428931995.png" />]).main()
+        bassa(<img src="1538056210978.png" />).main()
+        ffrk([<img src="1514089721092.png" />,<img src="1542758637555.png" />]).main()
+        dereste(<img src="1514097927025.png" />).main()
+        hosidra([<img src="1514104334655.png" />,<img src="1529732868458.png" />]).main()
+        ffbe(<img src="1514095893745.png" />).main()
+        browndust(<img src="1521942265355.png" />).main()
+        sinoalice(<img src="1533429571448.png" />).main()
+        gurablue(<img src="1515926876498.png" />).main()
+        musouzan(<img src="1538957758024.png" />).main()
+        casipro(<img src="1533429561894.png" />).main()
+        linerevo([<img src="1513555048596.png" />,<img src="1513489981954.png" />]).main()
+        update(<img src="1514504304305.png" />).main()
+        sevenknights(<img src="1514594964037.png" />).main()
+        sinsangokusi(<img src="1538301963645.png" />).main()
+        gansoku(<img src="1533429583435.png" />).main()
+        saoif(<img src="1514598609335.png" />).main()
+        orusaga([<img src="1513606032856.png" />,<img src="1513490040130.png" />]).main()
+        saomd(<img src="1514099499297.png" />).main()
+        kingdom(<img src="1514100008070.png" />).main()
+        garupa(<img src="1533429531697.png" />).main()
+        sirotennis(<img src="1533426760265.png" />).main()
+        valcone([<img src="1529732566850.png" />,<img src="1514086348155.png" />]).main()
+        priconne(<img src="1519560720548.png" />).main()
+
+<span class="kw">class</span> sutarira(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        self.end()
+    @logging
+    <span class="kw">def</span> vsreview(self):
+        wi(<img src="1513607135866.png" />,[<img src="1544867711181.png" />,<img src="1544867723420.png" />,<img src="1541775319770.png" />,Pattern(<img src="1544867770144.png" />).similar(<span class="dig">0.80</span>),<img src="1544868064301.png" />,<img src="1544868481103.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> quest(self):
+        wi(<img src="1513607135866.png" />,[Pattern(<img src="1541775249511.png" />).targetOffset(<span class="dig">31</span>,<span class="dig">57</span>),<img src="1541775271224.png" />,Pattern(<img src="1541775293607.png" />).targetOffset(<span class="dig">6</span>,<span class="dig">104</span>),<img src="1541775319770.png" />,<img src="1541775372185.png" />,Pattern(<img src="1541775437080.png" />).similar(<span class="dig">0.80</span>),<img src="1541775465490.png" />,<img src="1541775477972.png" />,Pattern(<img src="1541775558230.png" />).targetOffset(-<span class="dig">290</span>,<span class="dig">0</span>)],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> ibeboss(self):
+        wi(<img src="1513607135866.png" />,[<img src="1544135368817.png" />,<img src="1541775271224.png" />,Pattern(<img src="1541775293607.png" />).targetOffset(<span class="dig">6</span>,<span class="dig">104</span>),<img src="1541775319770.png" />,<img src="1541775372185.png" />,Pattern(<img src="1541775437080.png" />).similar(<span class="dig">0.80</span>),<img src="1541775465490.png" />,<img src="1541775477972.png" />,Pattern(<img src="1541775558230.png" />).targetOffset(-<span class="dig">290</span>,<span class="dig">0</span>)],<span class="dig">0</span>,<span class="dig">1000</span>)
+        <span class="cmt">#Pattern("1541839940579.png").similar(0.94)</span>
+    @logging
+    <span class="kw">def</span> risemara(self):
+        cw(<img src="1540628654404.png" />)
+        wi(<img src="1540628766054.png" />,[Pattern(<img src="1540628669977.png" />).targetOffset(<span class="dig">284</span>,-<span class="dig">2</span>),<img src="1540628697797.png" />,Pattern(<img src="1540628720345.png" />).targetOffset(<span class="dig">193</span>,<span class="dig">36</span>),<img src="1540628739703.png" />],<span class="dig">1</span>)
+        wi(<img src="1540626484113.png" />,[<img src="1540628806455.png" />,<img src="1540628842906.png" />,<img src="1540628853195.png" />,<img src="1540626163725.png" />],<span class="dig">1</span>,<span class="dig">1000</span>)
+        wi(<img src="1540625760027.png" />,[<img src="1540629122380.png" />,<img src="1540626505363.png" />,<img src="1540626518098.png" />,<img src="1540626484113.png" />],<span class="dig">1</span>)
+        wi(<img src="1540626163725.png" />,[<img src="1540629122380.png" />,<img src="1540625760027.png" />,Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">95</span>,<span class="dig">0</span>),Pattern(<img src="1540625691972-2.png" />).targetOffset(-<span class="dig">115</span>,<span class="dig">0</span>)],<span class="dig">1</span>)
+        wi(<img src="1540626468239.png" />,[<img src="1540629122380.png" />,<img src="1540625760027.png" />,Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">95</span>,<span class="dig">0</span>),Pattern(<img src="1540625691972-2.png" />).targetOffset(-<span class="dig">115</span>,<span class="dig">0</span>),<img src="1540628220401.png" />,Pattern(<img src="1540626218471.png" />).targetOffset(<span class="dig">0</span>,-<span class="dig">85</span>),Pattern(<img src="1540635726701.png" />).targetOffset(<span class="dig">0</span>,<span class="dig">90</span>)],<span class="dig">1</span>)
+        wi(<img src="1540630582251.png" />,[<img src="1540626468239.png" />,Pattern(<img src="1540636404190.png" />).targetOffset(-<span class="dig">1</span>,-<span class="dig">113</span>),<img src="1540626505363.png" />,<img src="1540626518098.png" />,<img src="1540627454003.png" />,<img src="1540625760027.png" />])
+        wi(<img src="1540631161058.png" />,[<img src="1540629122380.png" />,<img src="1540625760027.png" />,Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">95</span>,<span class="dig">0</span>),Pattern(<img src="1540625691972-2.png" />).targetOffset(-<span class="dig">115</span>,<span class="dig">0</span>),Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">343</span>,-<span class="dig">2</span>)],<span class="dig">1</span>)
+        wi(<img src="1540626392789.png" />,[Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">95</span>,<span class="dig">0</span>),<img src="1540631161058.png" />,<img src="1540631204531.png" />,<img src="1540627454003.png" />],<span class="dig">1</span>)
+        wi(<img src="1540631461009.png" />,[<img src="1540627524622.png" />,<img src="1540627543380.png" />,<img src="1540625760027.png" />])
+        wi(<img src="1540626392789.png" />,[<img src="1540629122380.png" />,<img src="1540625760027.png" />,Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">95</span>,<span class="dig">0</span>),Pattern(<img src="1540625691972-2.png" />).targetOffset(-<span class="dig">115</span>,<span class="dig">0</span>)],<span class="dig">1</span>)
+        wi(<img src="1540628199651.png" />,[<img src="1540629122380.png" />,<img src="1540625760027.png" />,Pattern(<img src="1540625691972.png" />).targetOffset(<span class="dig">95</span>,<span class="dig">0</span>),Pattern(<img src="1540625691972-2.png" />).targetOffset(-<span class="dig">115</span>,<span class="dig">0</span>),Pattern(<img src="1540626218471.png" />).targetOffset(<span class="dig">0</span>,-<span class="dig">85</span>),<img src="1540628031566.png" />,<img src="1540627454003.png" />,<img src="1540628053757.png" />],<span class="dig">1</span>)
+        wi(<img src="1540628259604.png" />,[<img src="1540628053757.png" />,<img src="1540628199651.png" />,<img src="1540628211576.png" />,<img src="1540628220401.png" />])
+        wi(<img src="1540628302741.png" />,[Pattern(<img src="1540637441913.png" />).targetOffset(-<span class="dig">37</span>,<span class="dig">0</span>),<img src="1540628290187.png" />])
+        <span class="cmt">#sys.exit()</span>
+
+
+<span class="kw">class</span> sganrowa(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1514089151050.png" />,[<img src="1514089054121.png" />,<img src="1514089071531.png" />,<img src="1514089108565.png" />,<img src="1514299216376.png" />])
+        wi(<img src="1514089252064.png" />,[<img src="1514089206217.png" />,<img src="1514089224604.png" />,<img src="1514089238732.png" />])
+        self.end()
+    @logging
+    <span class="kw">def</span> battle(self):
+        wi(<img src="1513607135866.png" />,[Pattern(<img src="1540081677477.png" />).similar(<span class="dig">0.80</span>).targetOffset(-<span class="dig">2</span>,-<span class="dig">24</span>),Pattern(<img src="1540081713087.png" />).similar(<span class="dig">0.94</span>),<img src="1540081755647.png" />,<img src="1540081773559.png" />,Pattern(<img src="1540081805970.png" />).targetOffset(<span class="dig">17</span>,<span class="dig">4</span>),<img src="1540081835761.png" />,Pattern(<img src="1540081852889.png" />).targetOffset(-<span class="dig">1</span>,-<span class="dig">18</span>),Pattern(<img src="1540082099410.png" />).targetOffset(<span class="dig">0</span>,-<span class="dig">22</span>),Pattern(<img src="1540082144117.png" />).similar(<span class="dig">0.72</span>),<img src="1540082951468.png" />,Pattern(<img src="1540083059587.png" />).similar(<span class="dig">0.94</span>),Pattern(<img src="1540083020221.png" />).similar(<span class="dig">0.91</span>)])
+
+
+
+<span class="kw">class</span> musouzan(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.story()
+        self.end()
+    @logging
+    <span class="kw">def</span> story(self):
+        wi(<img src="1513607135866.png" />,[<img src="1538958176485.png" />,<img src="1538957916524.png" />,<img src="1538957962714.png" />,<img src="1538957980323.png" />,<img src="1538958022519.png" />])
+    @logging
+    <span class="kw">def</span> renzoku(self):
+        wi(<img src="1513607135866.png" />,[<img src="1539010070414.png" />,<img src="1538958022519.png" />,<img src="1539010089079.png" />,<img src="1539010125777.png" />,<img src="1539010146637.png" />,<img src="1538958022519.png" />,<img src="1539010163979.png" />,<img src="1539011410036.png" />,<img src="1539014954295.png" />,Pattern(<img src="1539012944630.png" />).targetOffset(<span class="dig">133</span>,-<span class="dig">68</span>)],<span class="dig">0</span>,<span class="dig">1000</span>)
+
+
+<span class="kw">class</span> sinsangokusi(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1538910047584.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            self.iroiro()
+            <span class="kw">if</span> r.exists(<img src="1538910713092.png" />,<span class="dig">0.2</span>): self.mail()
+        self.end()
+    @logging
+    <span class="kw">def</span> mail(self):
+        wi(<img src="1538910939410.png" />,[<img src="1538910713092.png" />,Pattern(<img src="1538910838494.png" />).targetOffset(-<span class="dig">45</span>,-<span class="dig">1</span>),<img src="1538910857158.png" />])
+    @logging
+    <span class="kw">def</span> iroiro(self):
+        wi(<img src="1513607135866.png" />,[<img src="1538911057291.png" />,Pattern(<img src="1538910613076.png" />).similar(<span class="dig">0.85</span>).targetOffset(<span class="dig">3</span>,<span class="dig">13</span>),<img src="1538910560787.png" />,<img src="1538910435815.png" />,Pattern(<img src="1538301324817.png" />).similar(<span class="dig">0.65</span>).targetOffset(-<span class="dig">17</span>,-<span class="dig">18</span>),Pattern(<img src="1538302174494.png" />).similar(<span class="dig">0.79</span>).targetOffset(-<span class="dig">32</span>,-<span class="dig">36</span>),<img src="1538301299085.png" />],<span class="dig">0</span>,<span class="dig">8</span>)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1538910047584.png" />,[<img src="1538910188692.png" />,<img src="1538910198573.png" />,<img src="1538910207436.png" />,<img src="1538932440506.png" />])
+    @logging
+    <span class="kw">def</span> risemara1(self):
+        wi(<img src="1538301545307.png" />,[<img src="1538301180546.png" />,<img src="1538301194045.png" />,<img src="1538301232045.png" />,<img src="1538301299085.png" />,Pattern(<img src="1538301324817.png" />).similar(<span class="dig">0.65</span>).targetOffset(-<span class="dig">17</span>,-<span class="dig">18</span>),Pattern(<img src="1538302174494.png" />).similar(<span class="dig">0.79</span>).targetOffset(-<span class="dig">32</span>,-<span class="dig">36</span>),<img src="1538301472455.png" />,Pattern(<img src="1538302075198.png" />).similar(<span class="dig">0.71</span>)])
+    <span class="kw">def</span> risemara2(self):
+        wi(<img src="1538302661854.png" />,[<img src="1538301299085.png" />,Pattern(<img src="1538301324817.png" />).similar(<span class="dig">0.65</span>).targetOffset(-<span class="dig">17</span>,-<span class="dig">18</span>),Pattern(<img src="1538302174494.png" />).similar(<span class="dig">0.79</span>).targetOffset(-<span class="dig">32</span>,-<span class="dig">36</span>),<img src="1538301472455.png" />,Pattern(<img src="1538302075198.png" />).similar(<span class="dig">0.71</span>),<img src="1538306240369.png" />,Pattern(<img src="1538301894555.png" />).targetOffset(-<span class="dig">49</span>,-<span class="dig">49</span>),<img src="1538301194045.png" />])
+
+
+<span class="kw">class</span> bassa(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1538056402203.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1538190728793.png" />,<span class="dig">0.2</span>): self.muryogatya()
+            <span class="kw">if</span> r.exists(<img src="1538265424799.png" />,<span class="dig">0.2</span>): self.present()
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1538056402203.png" />,[Pattern(<img src="1542966875219.png" />).targetOffset(<span class="dig">416</span>,<span class="dig">351</span>),<img src="1538056694341.png" />,<img src="1538056709315.png" />,<img src="1538056739724.png" />,<img src="1538056502151.png" />,<img src="1538056523394.png" />,<img src="1538056562228.png" />,<img src="1538610849809.png" />,<img src="1538265896045.png" />,<img src="1538610882227.png" />,<img src="1538190681850.png" />,<img src="1544797863157.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(Pattern(<img src="1538265938119.png" />).similar(<span class="dig">0.96</span>),[<img src="1538265424799.png" />,<img src="1538265888776.png" />,<img src="1538610882227.png" />,<img src="1538265896045.png" />])
+        cw(<img src="1538265980835.png" />)
+    @logging
+    <span class="kw">def</span> muryogatya(self):
+        cw(Pattern(<img src="1538190728793.png" />).targetOffset(<span class="dig">2</span>,<span class="dig">18</span>))
+        wi(<img src="1538190910786.png" />,[<img src="1538190830308.png" />,<img src="1538190845214.png" />,<img src="1538190859587.png" />,<img src="1538190877152.png" />,<img src="1538190893235.png" />])
+        cw(<img src="1538190936108.png" />)
+    @logging
+    <span class="kw">def</span> kyoutou(self):
+        wi(<img src="1513607135866.png" />,[<img src="1538242816874.png" />,Pattern(<img src="1538242866408.png" />).similar(<span class="dig">0.97</span>),<img src="1538242895851.png" />,<img src="1538242906915.png" />,Pattern(<img src="1538242944037.png" />).similar(<span class="dig">0.98</span>),<img src="1538823085514.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+        self.end()
+    @logging
+    <span class="kw">def</span> kyoutoubosyu(self):
+        wi(<img src="1513607135866.png" />,[<img src="1538822604549.png" />,<img src="1538822618321.png" />,<img src="1538823085514.png" />,Pattern(<img src="1538822630644.png" />).similar(<span class="dig">0.94</span>),<img src="1538242816874.png" />,Pattern(<img src="1538242944037.png" />).similar(<span class="dig">0.98</span>),Pattern(<img src="1538822987395.png" />).similar(<span class="dig">0.85</span>).targetOffset(-<span class="dig">314</span>,<span class="dig">5</span>)],<span class="dig">0</span>,<span class="dig">1000</span>)
+        self.end()
+
+<span class="kw">class</span> gansoku(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1518436297567.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1518435856170.png" />,<span class="dig">0.2</span>): self.container()
+            <span class="kw">if</span> r.exists(<img src="1518436027120.png" />,<span class="dig">0.2</span>): self.mission()
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1518435605719.png" />,[<img src="1518435505780.png" />,<img src="1518435551039.png" />,<img src="1518435587677.png" />,<img src="1518469684688.png" />,<img src="1518824714670.png" />,<img src="1519536552079.png" />])
+        cw(<img src="1518435631901.png" />)
+    @logging
+    <span class="kw">def</span> container(self):
+        wi(<img src="1518435904631.png" />,[<img src="1518435856170.png" />,<img src="1518435887874.png" />],<span class="dig">1</span>)
+    @logging
+    <span class="kw">def</span> mission(self):
+        wi(<img src="1518436199125.png" />,[Pattern(<img src="1518436027120.png" />).targetOffset(<span class="dig">61</span>,<span class="dig">16</span>),<img src="1518436134913.png" />,<img src="1518436163254.png" />],<span class="dig">0</span>,<span class="dig">20</span>)
+        cw(<img src="1518436215687.png" />)
+    @logging
+    <span class="kw">def</span> battle(self):
+        wi(<img src="1518435505780.png" />,[<img src="1518563849857.png" />,<img src="1518563878805.png" />,<img src="1518563909402.png" />])
+    @logging
+    <span class="kw">def</span> battleloop(self):
+        wi(<img src="1513607135866.png" />,[<img src="1534647394864.png" />,[Pattern(<img src="1535262475524.png" />).targetOffset(-<span class="dig">13</span>,-<span class="dig">83</span>),Pattern(<img src="1535262475524.png" />).targetOffset(-<span class="dig">17</span>,-<span class="dig">167</span>)],[Pattern(<img src="1535267465460.png" />).targetOffset(-<span class="dig">5</span>,-<span class="dig">83</span>),Pattern(<img src="1535267465460.png" />).targetOffset(<span class="dig">14</span>,-<span class="dig">180</span>)],[Pattern(<img src="1535262506357.png" />).targetOffset(-<span class="dig">13</span>,-<span class="dig">83</span>),Pattern(<img src="1535262506357.png" />).targetOffset(-<span class="dig">18</span>,-<span class="dig">168</span>)],<img src="1535262713384.png" />,<img src="1535282973125.png" />,<img src="1535282993260.png" />],<span class="dig">0</span>,<span class="dig">10000</span>)
+
+<span class="kw">class</span> valcone(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1514151006260.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(self.loop):
+            <span class="kw">if</span> r.exists(<img src="1515073775206.png" />,<span class="dig">0.2</span>): self.gacha()
+            <span class="kw">if</span> r.exists(<img src="1515107450943.png" />,<span class="dig">0.2</span>): self.present()
+            <span class="kw">if</span> r.exists(<img src="1515168287565.png" />,<span class="dig">0.2</span>): self.friend()
+            <span class="kw">if</span> r.exists(<img src="1513607135866.png" />,<span class="dig">0.2</span>): self.end()
+            <span class="kw">if</span> r.exists(<img src="1520080077400.png" />,<span class="dig">0.2</span>): self.connect()
+            <span class="cmt">#self.arena()</span>
+        self.end()
+
+    @logging
+    <span class="kw">def</span> gacha(self):
+        cw(<img src="1515075209479.png" />)
+        r.<span class="skw">dragDrop</span>(Pattern(<img src="1514151372589.png" />).targetOffset(-<span class="dig">3</span>,<span class="dig">455</span>), Pattern(<img src="1514151372589.png" />).targetOffset(<span class="dig">0</span>,<span class="dig">3</span>))
+        wi(<img src="1515074934529.png" />,[Pattern(<img src="1515074722401.png" />).similar(<span class="dig">0.86</span>).targetOffset(-<span class="dig">57</span>,<span class="dig">31</span>),<img src="1515074757934.png" />,<img src="1515074770340.png" />,<img src="1515074780978.png" />,<img src="1515074794894.png" />])
+        cw(<img src="1514151372589.png" />)
+    @logging
+    <span class="kw">def</span> arena(self):
+        wi(<img src="1514151669600.png" />,[<img src="1514151437868.png" />,<img src="1515107505344.png" />,<img src="1514151456642.png" />,<img src="1514150979786.png" />,Pattern(<img src="1514151475427.png" />).targetOffset(-<span class="dig">50</span>,<span class="dig">2</span>),<img src="1514151500103.png" />,<img src="1514151519189.png" />,<img src="1514151569741.png" />,<img src="1514151850522.png" />])
+        wi(<img src="1514151669600.png" />,[<img src="1514151700210.png" />,<img src="1514151456642.png" />,<img src="1514150979786.png" />,Pattern(<img src="1514151475427.png" />).targetOffset(-<span class="dig">50</span>,<span class="dig">2</span>),<img src="1514151500103.png" />,<img src="1514151519189.png" />,<img src="1514151569741.png" />,<img src="1514151850522.png" />,<img src="1514644983266.png" />])
+        cw(<img src="1514151372589.png" />)
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(<img src="1514151212197.png" />,[<img src="1514151143631.png" />,<img src="1514151155119.png" />,<img src="1514150979786.png" />])
+        cw(<img src="1514151372589.png" />)
+    @logging
+    <span class="kw">def</span> friend(self):
+        wi(Pattern(<img src="1515073523990.png" />).similar(<span class="dig">0.95</span>),[<img src="1514151260415.png" />,<img src="1514151275015.png" />,<img src="1514151288302.png" />,<img src="1514151300079.png" />,<img src="1514150979786.png" />])
+        cw(<img src="1514151372589.png" />)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        cw(Pattern(<img src="1529733324073.png" />).targetOffset(<span class="dig">72</span>,<span class="dig">82</span>))
+        wi(<img src="1528625275483.png" />,[<img src="1529733123124.png" />,<img src="1529733051994.png" />,<img src="1528624957612.png" />,<img src="1514150910536.png" />,<img src="1528624986779.png" />,<img src="1514150946862.png" />,<img src="1514150979786.png" />,<img src="1518908165188.png" />,<img src="1528625203178.png" />,<img src="1528625255643.png" />],<span class="dig">1</span>)
+    @logging
+    <span class="kw">def</span> tou(self):
+        wi(<img src="1513607135866.png" />,[Pattern(<img src="1514033164941.png" />).similar(<span class="dig">0.86</span>),Pattern(<img src="1516919159861.png" />).similar(<span class="dig">0.88</span>),Pattern(<img src="1516716357211.png" />).similar(<span class="dig">0.77</span>).targetOffset(-<span class="dig">4</span>,<span class="dig">24</span>),Pattern(<img src="1541929610343.png" />).targetOffset(-<span class="dig">45</span>,-<span class="dig">38</span>),<img src="1514027256711.png" />,Pattern(<img src="1516908966084.png" />).targetOffset(-<span class="dig">90</span>,-<span class="dig">7</span>),<img src="1514027326796.png" />,<img src="1514035331539.png" />,<img src="1514033257526.png" />,<img src="1514033271348.png" />,<img src="1514033340045.png" />,<img src="1514035766425.png" />,Pattern(<img src="1514035851633.png" />).similar(<span class="dig">0.80</span>),<img src="1514034350990.png" />,<img src="1514035054005.png" />,Pattern(<img src="1516909537438.png" />).targetOffset(-<span class="dig">112</span>,-<span class="dig">20</span>),<img src="1516919223292.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> eventQuest(self):
+        wi(<img src="1513607135866.png" />,[Pattern(<img src="1514033164941.png" />).similar(<span class="dig">0.83</span>),<img src="1514027256711.png" />,<img src="1514027326796.png" />,<img src="1514035331539.png" />,<img src="1514033257526.png" />,<img src="1514033271348.png" />,<img src="1514035054005.png" />,<img src="1514644983266.png" />,Pattern(<img src="1514645399009.png" />).targetOffset(-<span class="dig">69</span>,<span class="dig">46</span>),<img src="1514645293676.png" />,<img src="1514645313447.png" />,<img src="1514644983266.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+        self.main()
+    @logging
+    <span class="kw">def</span> quest(self):
+        wi(<img src="1513607135866.png" />,[<img src="1514027256711.png" />,<img src="1514027326796.png" />,<img src="1514027366119.png" />,<img src="1514027386577.png" />,<img src="1514033257526.png" />,<img src="1514033271348.png" />,Pattern(<img src="1533456360127.png" />).similar(<span class="dig">0.91</span>)],<span class="dig">0</span>,<span class="dig">5000</span>)
+    @logging
+    <span class="kw">def</span> kourin(self):
+        wi(<img src="1513607135866.png" />,[<img src="1533588327031.png" />,<img src="1530034331226.png" />,<img src="1530034358403.png" />,<img src="1514027366119.png" />,<img src="1541915336023.png" />,<img src="1514027326796.png" />],<span class="dig">0</span>,<span class="dig">5000</span>)
+    @logging
+    <span class="kw">def</span> connect(self):
+        wi(<img src="1514035331539.png" />,[<img src="1520080077400.png" />,<img src="1514033257526.png" />,<img src="1514027326796.png" />,<img src="1514027386577.png" />,<img src="1520087769909.png" />],<span class="dig">1</span>)
+
+<span class="kw">class</span> priconne(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1520760598056.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">if</span> r.exists(<img src="1521259276842.png" />,<span class="dig">0.2</span>): self.tansaku()
+        <span class="cmt">#if r.exists("1521259276842.png",0.2): self.quest()</span>
+        <span class="kw">if</span> r.exists(<img src="1524304098836.png" />,<span class="dig">0.2</span>): self.hardquest()
+        <span class="kw">for</span> i <span class="kw">in</span> range(self.loop):
+            <span class="kw">if</span> r.exists(Pattern(<img src="1520760669937.png" />).similar(<span class="dig">0.93</span>),<span class="dig">0.2</span>): self.mission()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1520761106893.png" />).similar(<span class="dig">0.94</span>),<span class="dig">0.2</span>): self.present()
+        self.end()
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(<img src="1520761211088.png" />,[<img src="1520761157288.png" />,<img src="1521258914831.png" />,<img src="1520761181833.png" />,<img src="1520761200918.png" />],<span class="dig">10</span>)
+        cw(<img src="1520761243796.png" />)
+        wi(<img src="1520760598056.png" />,[<img src="1520761051829.png" />,<img src="1521260740731.png" />])
+    @logging
+    <span class="kw">def</span> mission(self):
+        wi([<img src="1524303801030.png" />,<img src="1521275759312.png" />],[<img src="1520760840935.png" />,<img src="1520760753921.png" />,<img src="1521258914831.png" />,<img src="1520760851505.png" />,<img src="1520760790888.png" />,<img src="1521281498172.png" />],<span class="dig">5</span>)
+        wi(<img src="1520760598056.png" />,[<img src="1520761051829.png" />,<img src="1521260740731.png" />])
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1520170829134.png" />,[<img src="1520170690395.png" />,<img src="1520170732701.png" />,<img src="1520170757531.png" />,<img src="1519567034494.png" />,<img src="1520202368549.png" />,<img src="1533943724615.png" />,<img src="1544927545799.png" />])
+        wi(<img src="1520760598056.png" />,[<img src="1520761051829.png" />,<img src="1521260740731.png" />])
+    @logging
+    <span class="kw">def</span> tansaku(self):
+        wi(<img src="1521260250864.png" />,[<img src="1521259276842.png" />,<img src="1521259845863.png" />])
+        wi(Pattern(<img src="1521260651394.png" />).similar(<span class="dig">0.93</span>),[<img src="1521259867626.png" />,Pattern(<img src="1522109830697.png" />).similar(<span class="dig">0.73</span>),<img src="1519565572110.png" />,<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />,<img src="1520171665122.png" />,<img src="1519566967410.png" />,<img src="1521260040750.png" />,<img src="1521260064122.png" />,<img src="1520171219242.png" />])
+        wi(<img src="1521260250864.png" />,[<img src="1521259276842.png" />,<img src="1521259845863.png" />,Pattern(<img src="1521260349828.png" />).targetOffset(-<span class="dig">40</span>,-<span class="dig">1</span>)])
+        wi(Pattern(<img src="1521260651394.png" />).similar(<span class="dig">0.93</span>),[<img src="1521260429935.png" />,Pattern(<img src="1522109830697.png" />).similar(<span class="dig">0.73</span>),<img src="1519565572110.png" />,<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />,<img src="1520171665122.png" />,<img src="1519566967410.png" />,<img src="1521260040750.png" />,<img src="1521260064122.png" />,<img src="1520171219242.png" />])
+        wi(<img src="1520760598056.png" />,[<img src="1520761051829.png" />,<img src="1521260740731.png" />])
+    @logging
+    <span class="kw">def</span> hardquest(self):
+        wi([<img src="1524304149362.png" />,<img src="1533943502693.png" />],[<img src="1524304098836.png" />])
+        <span class="cmt">#1</span>
+        wi(<img src="1524312102452.png" />,[<img src="1544934244410.png" />,<img src="1524304336064.png" />,Pattern(<img src="1533943356996.png" />).similar(<span class="dig">0.92</span>).targetOffset(-<span class="dig">113</span>,-<span class="dig">4</span>),<img src="1524304361991.png" />])
+        wi(<img src="1524310314189.png" />,[<img src="1519565572110.png" />,<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />,<img src="1520171665122.png" />,<img src="1519566967410.png" />,<img src="1520171219242.png" />,<img src="1524310138281.png" />,<img src="1524310167127.png" />,Pattern(<img src="1533943356996.png" />).similar(<span class="dig">0.92</span>).targetOffset(-<span class="dig">113</span>,-<span class="dig">4</span>),<img src="1524304361991.png" />])
+        <span class="cmt">#1</span>
+        wi(<img src="1524312102452.png" />,[<img src="1524312049232.png" />,<img src="1524304336064.png" />,Pattern(<img src="1533943356996.png" />).similar(<span class="dig">0.92</span>).targetOffset(-<span class="dig">113</span>,-<span class="dig">4</span>),<img src="1524312075096.png" />])
+        wi(<img src="1524310314189.png" />,[<img src="1519565572110.png" />,<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />,<img src="1520171665122.png" />,<img src="1519566967410.png" />,<img src="1520171219242.png" />,<img src="1524310138281.png" />,<img src="1524310167127.png" />,Pattern(<img src="1533943356996.png" />).similar(<span class="dig">0.92</span>).targetOffset(-<span class="dig">113</span>,-<span class="dig">4</span>),<img src="1524312075096.png" />])
+        wi([<img src="1524304149362.png" />,<img src="1533943502693.png" />],[<img src="1524310342669.png" />,<img src="1524310355973.png" />,<img src="1524310381485.png" />,<img src="1524311934450.png" />])
+    @logging
+    <span class="kw">def</span> quest(self):
+        wi([<img src="1520171038984.png" />,<img src="1519566967410.png" />,<img src="1519565572110.png" />],[<img src="1521259276842.png" />,<img src="1521259469957.png" />])
+        wi(<img src="1521275759312.png" />,[Pattern(<img src="1520171038984.png" />).targetOffset(-<span class="dig">2</span>,<span class="dig">61</span>),<img src="1519565572110.png" />,<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />,<img src="1520171665122.png" />,<img src="1519566967410.png" />,<img src="1520171219242.png" />])
+    @logging
+    <span class="kw">def</span> request(self):
+        wi(<img src="1521275759312.png" />,[Pattern(<img src="1520171038984.png" />).targetOffset(-<span class="dig">2</span>,<span class="dig">61</span>),<img src="1519565572110.png" />,<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />,<img src="1520171665122.png" />,Pattern(<img src="1521633603551.png" />).targetOffset(<span class="dig">0</span>,<span class="dig">610</span>),Pattern(<img src="1521630795560.png" />).similar(<span class="dig">0.77</span>),Pattern(<img src="1521631643966.png" />).targetOffset(<span class="dig">38</span>,<span class="dig">18</span>),<img src="1520171219242.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> resemara(self):
+        <span class="cmt">#wi("1519560912673.png",["1519560870985.png","1519560884256.png"])</span>
+        <span class="cmt">#wi("1519561008726.png",["1519560912673.png","1519560959582.png"])</span>
+        <span class="cmt">#wi(Pattern("1519561321369.png").exact(),["1519561008726.png",Pattern("1513606870853.png").targetOffset(607,288),"1519561091354.png","1519561108538.png",Pattern("1520130278657.png").similar(0.91).targetOffset(-37,0),Pattern("1519561227918.png").similar(0.77).targetOffset(-32,-2)])</span>
+        <span class="cmt">#wi([Pattern("1519562997852.png").similar(0.98),"1520133788824.png"],["1519561414205.png",Pattern("1519564282898.png").similar(0.80),"1519562806096.png","1519562836833.png"])</span>
+        wi(<img src="1519564351960.png" />,[Pattern(<img src="1519562997852.png" />).similar(<span class="dig">0.98</span>),<img src="1519563009828.png" />,<img src="1519562836833.png" />,Pattern(<img src="1519564282898.png" />).similar(<span class="dig">0.80</span>)],<span class="dig">1000</span>)
+        wi(<img src="1519562806096.png" />,[<img src="1519564351960.png" />,Pattern(<img src="1519562997852.png" />).similar(<span class="dig">0.98</span>),<img src="1519561414205.png" />,<img src="1519563009828.png" />,<img src="1519562836833.png" />,Pattern(<img src="1519564282898.png" />).similar(<span class="dig">0.80</span>)])
+        wi(<img src="1519565459607.png" />,[<img src="1519564351960.png" />,<img src="1519562806096.png" />,Pattern(<img src="1519564282898.png" />).similar(<span class="dig">0.80</span>),<img src="1519564548068.png" />,<img src="1519564567600.png" />,Pattern(<img src="1519562997852.png" />).similar(<span class="dig">0.98</span>),<img src="1519563009828.png" />,<img src="1519562836833.png" />])
+        wi(<img src="1519566922715.png" />,[<img src="1519565478237.png" />,<img src="1519565491891.png" />,Pattern(<img src="1519564282898.png" />).similar(<span class="dig">0.80</span>),<img src="1519565556385.png" />,<img src="1519565572110.png" />,Pattern(<img src="1519565608876.png" />).similar(<span class="dig">0.85</span>).targetOffset(-<span class="dig">3</span>,<span class="dig">113</span>),<img src="1519565657264.png" />,<img src="1519565681792.png" />,<img src="1519565691486.png" />])
+        wi(<img src="1520135536937.png" />,[<img src="1519566967410.png" />,Pattern(<img src="1519564282898.png" />).similar(<span class="dig">0.80</span>),Pattern(<img src="1519565608876.png" />).similar(<span class="dig">0.85</span>).targetOffset(-<span class="dig">3</span>,<span class="dig">113</span>),<img src="1519567034494.png" />,<img src="1519567085018.png" />,<img src="1520143906388.png" />])
+        sys.exit()
+
+
+<span class="kw">class</span> hit(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1538225903778.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">if</span> r.exists(<img src="1523659724038.png" />,<span class="dig">0.2</span>): self.restart()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1523659724038.png" />,<span class="dig">0.2</span>): self.restart()
+            <span class="kw">if</span> r.exists(<img src="1523143087286.png" />,<span class="dig">0.2</span>): self.gacha()
+            <span class="kw">if</span> r.exists(<img src="1523143439772.png" />,<span class="dig">0.2</span>): self.mail()
+            <span class="kw">if</span> <span class="kw">not</span> self.errflg : cw(Pattern(<img src="1515910617767.png" />).targetOffset(-<span class="dig">25</span>,<span class="dig">385</span>))
+        self.end()
+    @logging
+    <span class="kw">def</span> mail(self):
+        tc([<img src="1523143709979.png" />,<img src="1523143215690.png" />,<img src="1523144157684.png" />,<img src="1523143242233.png" />],[<img src="1523143439772.png" />,<img src="1523143506384.png" />,<img src="1523143513379.png" />,<img src="1523143524246.png" />,<img src="1523143535130.png" />,<img src="1523143629613.png" />])
+        cw(<img src="1523144071282.png" />)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi([<img src="1538225903778.png" />,<img src="1523659724038.png" />],[<img src="1514126081475.png" />,<img src="1514126167299.png" />,<img src="1523142886856.png" />,Pattern(<img src="1515893674215.png" />).targetOffset(<span class="dig">763</span>,-<span class="dig">455</span>),<img src="1523142839250.png" />,<img src="1523142928557.png" />,<img src="1523572799669.png" />])
+    @logging
+    <span class="kw">def</span> gacha(self):
+        wi(Pattern(<img src="1523143355782.png" />).similar(<span class="dig">0.94</span>),[<img src="1523143087286.png" />,<img src="1523143163885.png" />,<img src="1523143200990.png" />,<img src="1523143215690.png" />,<img src="1523143242233.png" />],<span class="dig">0</span>,<span class="dig">20</span>)
+        cw(Pattern(<img src="1523143396397.png" />).targetOffset(-<span class="dig">60</span>,-<span class="dig">2</span>))
+    @logging
+    <span class="kw">def</span> restart(self):
+        cw(Pattern(<img src="1523659704691.png" />).targetOffset(<span class="dig">118</span>,-<span class="dig">1</span>))
+        self.errflg = True
+
+
+
+
+<span class="kw">class</span> browndust(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1521942819449.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(self.loop):
+            <span class="kw">if</span> r.exists(<img src="1522990744816.png" />,<span class="dig">0.2</span>): self.mission()
+            <span class="kw">if</span> r.exists(<img src="1522987917944.png" />,<span class="dig">0.2</span>): self.roulette()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1522988104546.png" />).similar(<span class="dig">0.80</span>),<span class="dig">0.2</span>): self.guild()
+            <span class="kw">if</span> r.exists(<img src="1522988454989.png" />,<span class="dig">0.2</span>): self.sinpi()
+            <span class="kw">if</span> r.exists(<img src="1522988454989.png" />,<span class="dig">0.2</span>): self.battle()
+            <span class="kw">if</span> r.exists(<img src="1523002714578.png" />,<span class="dig">0.2</span>): self.mail()
+        self.end()
+    @logging
+    <span class="kw">def</span> mail(self):
+        wi(<img src="1513607135866.png" />,[<img src="1523002714578.png" />,<img src="1523003201082.png" />,<img src="1523051512924.png" />],<span class="dig">0</span>,<span class="dig">10</span>)
+        wi(<img src="1521942819449.png" />,[<img src="1523051552505.png" />])
+    @logging
+    <span class="kw">def</span> sinpi(self):
+        <span class="cmt">#20回繰り返し</span>
+        wi(<img src="1513607135866.png" />,[<img src="1522988454989.png" />,Pattern(<img src="1522988473340.png" />).targetOffset(<span class="dig">3</span>,<span class="dig">159</span>),Pattern(<img src="1523052086721.png" />).targetOffset(-<span class="dig">24</span>,<span class="dig">24</span>),<img src="1522988522438.png" />,Pattern(<img src="1522988551606.png" />).targetOffset(<span class="dig">69</span>,<span class="dig">11</span>),Pattern(<img src="1523052266112.png" />).targetOffset(<span class="dig">107</span>,<span class="dig">46</span>),<img src="1522988593556.png" />],<span class="dig">0</span>,<span class="dig">20</span>)
+        wi(<img src="1521942819449.png" />,[<img src="1522989183477.png" />])
+    @logging
+    <span class="kw">def</span> battle(self):
+        wi([Pattern(<img src="1522990412384.png" />).similar(<span class="dig">0.75</span>),<img src="1523314154410.png" />,<img src="1523669312016.png" />],[<img src="1522988454989.png" />,Pattern(<img src="1522989259407.png" />).targetOffset(<span class="dig">2</span>,<span class="dig">160</span>),<img src="1522989303755.png" />,<img src="1522989317155.png" />,<img src="1523052803358.png" />,<img src="1523224950909.png" />,Pattern(<img src="1522988551606.png" />).targetOffset(<span class="dig">69</span>,<span class="dig">11</span>)])
+        wi(<img src="1521942819449.png" />,[<img src="1522990451287.png" />,<img src="1522990496603.png" />,<img src="1523669349240.png" />])
+    @logging
+    <span class="kw">def</span> guild(self):
+        <span class="cmt">#10回繰り返し</span>
+        wi(<img src="1513607135866.png" />,[<img src="1522988160149.png" />,<img src="1522988179102.png" />,Pattern(<img src="1522988194370.png" />).similar(<span class="dig">0.80</span>)],<span class="dig">0</span>,<span class="dig">10</span>)
+        cw(<img src="1522988350053.png" />)
+    @logging
+    <span class="kw">def</span> roulette(self):
+        <span class="cmt">#10回繰り返し</span>
+        wi(<img src="1522988035598.png" />,[<img src="1522987983874.png" />,<img src="1522987995326.png" />,<img src="1522988014858.png" />,<img src="1522990556210.png" />],<span class="dig">0</span>,<span class="dig">10</span>)
+        cw(Pattern(<img src="1521942711364.png" />).similar(<span class="dig">0.77</span>))
+    @logging
+    <span class="kw">def</span> mission(self):
+        <span class="cmt">#10回繰り返し</span>
+        wi(<img src="1513607135866.png" />,[<img src="1522990805222.png" />],<span class="dig">0</span>,<span class="dig">10</span>)
+    @logging
+    <span class="kw">def</span> missionloop(self):
+        wi(<img src="1513607135866.png" />,[<img src="1521945703888.png" />,<img src="1521945743676.png" />,<img src="1521945757164.png" />,<img src="1539475237456.png" />,Pattern(<img src="1539476021424.png" />).similar(<span class="dig">0.95</span>),<img src="1521946079949.png" />,<img src="1539477706823.png" />,<img src="1521946218162.png" />,<img src="1521956484177.png" />,<img src="1521956521674.png" />,<img src="1521956574331.png" />,Pattern(<img src="1521968543059.png" />).similar(<span class="dig">0.90</span>),<img src="1525001510768.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> akumaloop(self):
+        wi(<img src="1513607135866.png" />,[<img src="1524931456068.png" />,<img src="1521945757164.png" />,<img src="1539475237456.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> hosi1up(self):
+        <span class="kw">for</span> i <span class="kw">in</span> range(self.loop):
+            wi(Pattern(<img src="1529193062060.png" />).similar(<span class="dig">0.90</span>),[<img src="1529192588217.png" />,<img src="1529192616909.png" />,<img src="1529192639931.png" />,Pattern(<img src="1529192677010.png" />).similar(<span class="dig">0.78</span>),<img src="1529192761700.png" />,<img src="1529192790029.png" />,<img src="1529192810428.png" />,<img src="1529192865834.png" />,<img src="1529192943723.png" />,<img src="1529192960447.png" />,<img src="1529192982597.png" />,<img src="1529193009349.png" />,<img src="1529193020392.png" />,<img src="1529193032934.png" />])
+            wi(<img src="1529193032934.png" />,[Pattern(<img src="1529193062060.png" />).similar(<span class="dig">0.90</span>),Pattern(<img src="1529193071440.png" />).exact(),<img src="1529193099457.png" />,<img src="1529193120768.png" />,<img src="1529193020392.png" />])
+            wi(<img src="1529193628943.png" />,[<img src="1529193032934.png" />,Pattern(<img src="1529193226382.png" />).similar(<span class="dig">0.75</span>)])
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1521942819449.png" />,[Pattern(<img src="1521942711364.png" />).similar(<span class="dig">0.77</span>),Pattern(<img src="1521942741927.png" />).targetOffset(-<span class="dig">83</span>,<span class="dig">4</span>)])
+
+
+<span class="kw">class</span> saoif(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1515932073632.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1515930466762.png" />,<span class="dig">0.2</span>): self.present()
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1515932073632.png" />,[<img src="1514598676135.png" />,<img src="1521378721707.png" />,<img src="1516344872739.png" />,<img src="1514785744009.png" />],<span class="dig">0</span>,<span class="dig">200</span>)
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(Pattern(<img src="1514785774578.png" />).exact(),[<img src="1515930466762.png" />,<img src="1523050778047.png" />,<img src="1515931594369.png" />,<img src="1514894040399.png" />,<img src="1514785744009.png" />])
+        wi(<img src="1515932073632.png" />,[<img src="1514785744009.png" />,<img src="1515931618499.png" />])
+
+
+
+
+
+
+<span class="kw">class</span> gurablue(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1515927142223.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1515927243753.png" />,<span class="dig">0.2</span>): self.present()
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1517962201170.png" />,[<img src="1519382499359.png" />,<img src="1517962219693.png" />,<img src="1515926982495.png" />,<img src="1516344318302.png" />,Pattern(<img src="1516344338257.png" />).similar(<span class="dig">0.94</span>),<img src="1516369763563.png" />,Pattern(<img src="1516572590119.png" />).similar(<span class="dig">0.76</span>),<img src="1516630202645.png" />,<img src="1517962085076.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        cw(<img src="1519382802371.png" />)
+        wi(<img src="1515927320093.png" />,[Pattern(<img src="1515927283712.png" />).similar(<span class="dig">0.75</span>),<img src="1515927295376.png" />,<img src="1515927307743.png" />])
+        cw(<img src="1515927337563.png" />)
+    @logging
+    <span class="kw">def</span> battle(self):
+        wi(<img src="1515927337563.png" />,[Pattern(<img src="1515927593631.png" />).targetOffset(<span class="dig">169</span>,<span class="dig">34</span>),<img src="1515927437797.png" />,<img src="1515927448081.png" />,<img src="1515927457492.png" />,<img src="1515927552379.png" />],<span class="dig">1</span>)
+
+
+<span class="cmt">#オルサガ</span>
+<span class="kw">class</span> orusaga(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1519164827996.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1514330529950.png" />,<span class="dig">0.2</span>): self.present()
+            <span class="kw">if</span> r.exists(<img src="1519382320383.png" />,<span class="dig">0.2</span>): self.end()
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1519164827996.png" />,[Pattern(<img src="1513490072504.png" />).targetOffset(<span class="dig">594</span>,-<span class="dig">110</span>),Pattern(<img src="1513606870853.png" />).targetOffset(<span class="dig">607</span>,<span class="dig">288</span>),<img src="1513606998107.png" />,<img src="1513490168322.png" />,<img src="1538434659625.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(<img src="1514330492111.png" />,[<img src="1514330529950.png" />,<img src="1513490228988.png" />,<img src="1513490248507.png" />,<img src="1514330479470.png" />])
+        cw(<img src="1513490329501.png" />)
+
+
+
+
+
+
+<span class="kw">class</span> ffbe(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1514305732355.png" />,<span class="dig">0.2</span>): self.start()
+        self.present()
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1514305732355.png" />,[<img src="1514096151815.png" />,<img src="1514096203752.png" />,<img src="1514096220658.png" />,<img src="1514096236448.png" />,<img src="1521604455005.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(<img src="1514096394503.png" />,[Pattern(<img src="1514096293974.png" />).similar(<span class="dig">0.87</span>),<img src="1514096307465.png" />,<img src="1514305837685.png" />,<img src="1514305868254.png" />])
+    @logging
+    <span class="kw">def</span> jigen(self):
+        <span class="cmt">#wi("1517059620982.png",["1514305732355.png","1517059510918.png","1517059527489.png"],1)</span>
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">100</span>):
+            wi(<img src="1517059620982.png" />,[<img src="1517059545121.png" />,<img src="1517059557845.png" />,Pattern(<img src="1517059597590.png" />).targetOffset(<span class="dig">16</span>,<span class="dig">95</span>)],<span class="dig">1</span>)
+            wi(<img src="1517059545121.png" />,[[<img src="1517059713277.png" />,Pattern(<img src="1517059713277.png" />).targetOffset(<span class="dig">0</span>,-<span class="dig">330</span>)],Pattern(<img src="1517059789988.png" />).similar(<span class="dig">0.83</span>),<img src="1517059820168.png" />,<img src="1517059926736.png" />,<img src="1517060015863.png" />,<img src="1517060022546.png" />])
+
+
+
+<span class="cmt">#さんすま</span>
+<span class="kw">class</span> sansuma(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1513489340090.png" />,[<img src="1513607462797.png" />,<img src="1513607476218.png" />,<img src="1513607496371.png" />,<img src="1516341538300.png" />,<img src="1513607698253.png" />])
+        wi(<img src="1514686159746.png" />,[<img src="1513489340090.png" />,<img src="1513489356031.png" />,<img src="1513489372673.png" />,<img src="1513489388416.png" />,<img src="1513489404761.png" />,<img src="1513489428009.png" />,<img src="1513489442573.png" />,<img src="1513489459012.png" />,<img src="1513489494631.png" />])
+        cw(<img src="1513489629221.png" />)
+        cw(<img src="1513489648232.png" />)
+        self.end()
+
+
+
+<span class="kw">class</span> ffrk(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1514089813357.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            <span class="kw">if</span> r.exists(<img src="1515843732933.png" />,<span class="dig">0.2</span>): self.present()
+        <span class="cmt">#self.event()</span>
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1514089813357.png" />,[<img src="1514089753839.png" />,<img src="1514089767128.png" />,<img src="1514089781700.png" />,<img src="1544741235372.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        wi([<img src="1514095867131.png" />,<img src="1515843558293.png" />],[<img src="1514089848682.png" />,<img src="1514089864010.png" />,<img src="1514089878575.png" />])
+        cw(<img src="1515844154867.png" />)
+    @logging
+    <span class="kw">def</span> event(self):
+        wi(Pattern(<img src="1515844627949.png" />).similar(<span class="dig">0.82</span>),[<img src="1515844188053.png" />,Pattern(<img src="1515844223168.png" />).targetOffset(<span class="dig">117</span>,-<span class="dig">55</span>),<img src="1515844276181.png" />])
+        self.eventloop()
+    @logging
+    <span class="kw">def</span> eventloop(self):
+        wi([<img src="1515900836300.png" />,<img src="1516534971659.png" />],[Pattern(<img src="1514090255836.png" />).similar(<span class="dig">0.92</span>).targetOffset(<span class="dig">128</span>,<span class="dig">27</span>),Pattern(<img src="1515850661568.png" />).similar(<span class="dig">0.94</span>).targetOffset(<span class="dig">52</span>,<span class="dig">14</span>),<img src="1514090642613.png" />,<img src="1514090280528.png" />,<img src="1514090295654.png" />,<img src="1514090307956.png" />,<img src="1514090319634.png" />,<img src="1514091023554.png" />,<img src="1514090383692.png" />,<img src="1515853024210.png" />,Pattern(<img src="1515855907179.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">2</span>,<span class="dig">19</span>),[Pattern(<img src="1515853185965.png" />).targetOffset(<span class="dig">0</span>,-<span class="dig">63</span>),Pattern(<img src="1515853241001.png" />).targetOffset(-<span class="dig">85</span>,<span class="dig">99</span>)]])
+    @logging
+    <span class="kw">def</span> normalDungeon(self):
+        wi([<img src="1515900836300.png" />,<img src="1516534971659.png" />],[Pattern(<img src="1515885131972.png" />).targetOffset(<span class="dig">0</span>,-<span class="dig">19</span>),<img src="1515885312205.png" />,<img src="1514090642613.png" />,<img src="1514090280528.png" />,<img src="1514090295654.png" />,<img src="1514090307956.png" />,<img src="1514090319634.png" />,<img src="1514091023554.png" />,<img src="1514090383692.png" />,<img src="1515853024210.png" />,Pattern(<img src="1515855907179.png" />).similar(<span class="dig">0.90</span>).targetOffset(-<span class="dig">2</span>,<span class="dig">19</span>)])
+
+<span class="cmt">#ユニゾン</span>
+<span class="kw">class</span> unison(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1514087809745.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+            cw(<img src="1514087809745.png" />)
+            <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1514857077037.png" />,<span class="dig">0.2</span>): self.mimirin()
+            <span class="kw">if</span> r.exists(<img src="1514857325672.png" />,<span class="dig">0.2</span>): self.present()
+            <span class="kw">if</span> r.exists(<img src="1515068810381.png" />,<span class="dig">0.2</span>): self.mission()
+            <span class="kw">if</span> r.exists(<img src="1513607135866.png" />,<span class="dig">0.2</span>): self.start()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1516192425405.png" />).similar(<span class="dig">0.76</span>),<span class="dig">0.2</span>): self.restart()
+            <span class="kw">if</span> r.exists(<img src="1517523309936.png" />,<span class="dig">0.2</span>): self.baikyaku()
+        self.quest()
+        self.end()
+    @logging
+    <span class="kw">def</span> baikyaku(self):
+        wi([<img src="1517523392912.png" />],[Pattern(<img src="1517523309936.png" />).similar(<span class="dig">0.83</span>),<img src="1517523325205.png" />,<img src="1529834154945.png" />],<span class="dig">1</span>,<span class="dig">50</span>)
+        wi(Pattern(<img src="1538223696227.png" />).exact(),[<img src="1538223287230.png" />,<img src="1538223304731.png" />,<img src="1538223434670.png" />,<img src="1538223447622.png" />,<img src="1538223629451.png" />])
+        wi(<img src="1513607135866.png" />,[Pattern(<img src="1538223487956.png" />).similar(<span class="dig">0.77</span>),Pattern(<img src="1538223884250.png" />).similar(<span class="dig">0.87</span>)],<span class="dig">0</span>,<span class="dig">15</span>)
+        cw(<img src="1517523309936.png" />)
+        cw(<img src="1517523392912.png" />)
+        cw(<img src="1514087809745.png" />)
+    @logging
+    <span class="kw">def</span> apMax(self):
+        cw(<img src="1515402755322.png" />)
+        cw(<img src="1514087809745.png" />)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi([<img src="1514418183963.png" />,<img src="1517018703279.png" />,<img src="1529760435609.png" />,<img src="1544236261692.png" />],[<img src="1514088119959.png" />,<img src="1514088136830.png" />,<img src="1514088147554.png" />],<span class="dig">1</span>)
+        self.battleEnd()
+    @logging
+    <span class="kw">def</span> battleEnd(self):
+        wi(<img src="1514852454809.png" />,[<img src="1514418183963.png" />,<img src="1517018703279.png" />,<img src="1544236261692.png" />,<img src="1517021134812.png" />,<img src="1514087207066.png" />,<img src="1513894680166.png" />,<img src="1513703974319.png" />,<img src="1513704067206.png" />,<img src="1513704084812.png" />,<img src="1513704132150.png" />,<img src="1513704166831.png" />,<img src="1513704189650.png" />,<img src="1514852338877.png" />,<img src="1514852439215.png" />],<span class="dig">1</span>)
+        cw(<img src="1514087809745.png" />)
+    @logging
+    <span class="kw">def</span> mission(self):
+        tc([<img src="1515068929896.png" />,<img src="1515068947048.png" />],[<img src="1514852699408.png" />,<img src="1517021372272.png" />,<img src="1514852732465.png" />,<img src="1514856682564.png" />,<img src="1514856694948.png" />,<img src="1514856772163.png" />,<img src="1517021392140.png" />])
+        <span class="kw">if</span> r.exists(<img src="1515402575161.png" />,<span class="dig">0.2</span>):
+            cw(<img src="1515402755322.png" />)
+            cw(<img src="1514087809745.png" />)
+            self.quest()
+    @logging
+    <span class="kw">def</span> mimirin(self):
+        wi(<img src="1514857077037.png" />,[<img src="1514856963217.png" />,<img src="1514856976220.png" />,<img src="1514856987029.png" />,<img src="1514857007182.png" />,<img src="1514857021797.png" />,<img src="1514857036188.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(<img src="1514857370797.png" />,[<img src="1514857325672.png" />,<img src="1514857347164.png" />,<img src="1514857359157.png" />])
+    @logging
+    <span class="kw">def</span> quest(self):
+        wi([<img src="1514857736701.png" />,<img src="1517026945034.png" />],[<img src="1515070666549.png" />,<img src="1514857565900.png" />,<img src="1514857584134.png" />,Pattern(<img src="1514857630036.png" />).targetOffset(<span class="dig">125</span>,<span class="dig">160</span>),<img src="1514857667102.png" />,<img src="1514857680166.png" />,<img src="1514857702187.png" />,<img src="1514857716981.png" />])
+        wi([<img src="1514857813945.png" />,<img src="1517026945034.png" />],[<img src="1514857736701.png" />,<img src="1514857781221.png" />])
+        self.battleEnd()
+    @logging
+    <span class="kw">def</span> mainquest(self):
+        wi(<img src="1517026945034.png" />,[<img src="1515070666549.png" />,<img src="1514857565900.png" />,<img src="1514857584134.png" />,Pattern(<img src="1514857630036.png" />).targetOffset(<span class="dig">125</span>,<span class="dig">160</span>),<img src="1514857667102.png" />,<img src="1514857680166.png" />,<img src="1514857702187.png" />,<img src="1514857716981.png" />])
+    @logging
+    <span class="kw">def</span> restart(self):
+        self.end()
+        self.start()
+
+<span class="cmt">#リネレボ</span>
+<span class="kw">class</span> linerevo(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1515387789684.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            self.returnActivities()
+            self.getActivities()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1513467394054.png" />).targetOffset(<span class="dig">845</span>,<span class="dig">21</span>),<span class="dig">0.2</span>): self.gouman()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1513468836072.png" />).targetOffset(<span class="dig">845</span>,<span class="dig">21</span>),<span class="dig">0.2</span>): self.friends()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1513469250926.png" />).targetOffset(<span class="dig">833</span>,<span class="dig">25</span>),<span class="dig">0.2</span>): self.youbiDungeon()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1513484372649.png" />).targetOffset(<span class="dig">840</span>,<span class="dig">27</span>),<span class="dig">0.2</span>): self.ketumei()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1513486719699.png" />).targetOffset(<span class="dig">840</span>,<span class="dig">19</span>),<span class="dig">0.2</span>): self.kettou()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1513487543532.png" />).targetOffset(<span class="dig">882</span>,<span class="dig">27</span>),<span class="dig">0.2</span>): self.gacha()
+        self.mail()
+        self.end()
+    @logging
+    <span class="kw">def</span> mail(self):
+        cw(<img src="1513473111992.png" />)
+        <span class="kw">for</span> image <span class="kw">in</span> [<img src="1515404421560.png" />,<img src="1515404306077.png" />,<img src="1515404438891.png" />]:
+            wi(<img src="1515404277680.png" />,[<img src="1515404110689.png" />,<img src="1515404213851.png" />,<img src="1515404228477.png" />,<img src="1513812375827.png" />])
+            cw(image)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi([<img src="1513436735371.png" />,<img src="1535034933670.png" />],[<img src="1513427495993.png" />,<img src="1513436716643.png" />,<img src="1513812375827.png" />,<img src="1543793248068.png" />],<span class="dig">1</span>)
+        tc([<img src="1538210727364.png" />,<img src="1538210739538.png" />],[<img src="1538210822968.png" />,<img src="1538210833224.png" />,<img src="1538210840068.png" />,<img src="1538210851087.png" />,<img src="1538210856581.png" />])
+        wi([<img src="1515387789684.png" />,<img src="1515387666628.png" />],[<img src="1513436735371.png" />,<img src="1535034933670.png" />,Pattern(<img src="1538210889906.png" />).targetOffset(<span class="dig">146</span>,-<span class="dig">4</span>),<img src="1538210925459.png" />,Pattern(<img src="1535766012231.png" />).targetOffset(<span class="dig">196</span>,-<span class="dig">3</span>),<img src="1513438117134.png" />,<img src="1515386974720.png" />,Pattern(<img src="1515386974720.png" />).targetOffset(<span class="dig">333</span>,<span class="dig">240</span>),<img src="1515387268549.png" />,Pattern(<img src="1515387268549.png" />).targetOffset(<span class="dig">165</span>,<span class="dig">254</span>),<img src="1515387285841.png" />,Pattern(<img src="1515387285841.png" />).targetOffset(-<span class="dig">135</span>,<span class="dig">237</span>),Pattern(<img src="1517029410302.png" />).targetOffset(<span class="dig">64</span>,-<span class="dig">3</span>),Pattern(<img src="1518439497911.png" />).targetOffset(<span class="dig">20</span>,<span class="dig">1</span>)])
+        wi(<img src="1515387789684.png" />,[<img src="1513812375827.png" />,<img src="1515387732578.png" />,<img src="1515387751947.png" />,<img src="1513438117134.png" />])
+    @logging
+    <span class="kw">def</span> gouman(self):
+        cw(Pattern(<img src="1513467394054.png" />).targetOffset(<span class="dig">845</span>,<span class="dig">21</span>))
+        cw(<img src="1513467617051.png" />)
+        cw(<img src="1513467662751.png" />)
+        cw(Pattern(<img src="1513467694471.png" />).targetOffset(-<span class="dig">68</span>,-<span class="dig">2</span>))
+        self.getActivities()
+    @logging
+    <span class="kw">def</span> friends(self):
+        cw(Pattern(<img src="1513468836072.png" />).targetOffset(<span class="dig">845</span>,<span class="dig">21</span>))
+        cw(<img src="1513468965420.png" />)
+        cw(<img src="1513468990508.png" />)
+        cw(Pattern(<img src="1513469018317.png" />).targetOffset(-<span class="dig">67</span>,-<span class="dig">3</span>))
+        self.getActivities()
+    @logging
+    <span class="kw">def</span> youbiDungeon(self):
+        cw(Pattern(<img src="1513469250926.png" />).targetOffset(<span class="dig">833</span>,<span class="dig">25</span>))
+        cw(<img src="1513469294555.png" />)
+        wi(<img src="1523140114152.png" />,[<img src="1513469313228.png" />,<img src="1513469586268.png" />,<img src="1513469471949.png" />])
+        cw(Pattern(<img src="1513469673956.png" />).targetOffset(-<span class="dig">107</span>,-<span class="dig">4</span>))
+        self.returnActivities()
+        self.getActivities()
+    @logging
+    <span class="kw">def</span> ketumei(self):
+        cw(Pattern(<img src="1513484372649.png" />).targetOffset(<span class="dig">840</span>,<span class="dig">27</span>))
+        <span class="kw">if</span> cw(Pattern(<img src="1513484622502.png" />).targetOffset(-<span class="dig">58</span>,<span class="dig">4</span>)):
+            cw(<img src="1513484686144.png" />)
+            cw(<img src="1513484704459.png" />)
+        <span class="kw">if</span> cw(Pattern(<img src="1513484736151.png" />).targetOffset(-<span class="dig">70</span>,<span class="dig">3</span>)):
+            cw(<img src="1513484780177.png" />)
+            cw(<img src="1513484806569.png" />)
+            cw(<img src="1513484704459.png" />)
+        <span class="kw">if</span> cw(<img src="1513484882939.png" />):
+            <span class="kw">while</span> r.exists(<img src="1513484905273.png" />,<span class="dig">1</span>):
+                cw(<img src="1513484905273.png" />)
+            cw(Pattern(<img src="1513485341226.png" />).targetOffset(-<span class="dig">62</span>,-<span class="dig">2</span>))
+        <span class="kw">if</span> cw(Pattern(<img src="1513485437177.png" />).targetOffset(-<span class="dig">24</span>,<span class="dig">9</span>)):
+            cw(<img src="1513485478410.png" />)
+            cw(Pattern(<img src="1513485508393.png" />).targetOffset(-<span class="dig">42</span>,-<span class="dig">4</span>))
+            self.getActivities()
+    @logging
+    <span class="kw">def</span> kettou(self):
+        cw(Pattern(<img src="1513486719699.png" />).targetOffset(<span class="dig">840</span>,<span class="dig">19</span>))
+        cw(<img src="1513486773732.png" />)
+        wi(<img src="1513487373586.png" />,[Pattern(<img src="1513486828394.png" />).similar(<span class="dig">0.82</span>).targetOffset(-<span class="dig">3</span>,<span class="dig">65</span>),<img src="1513469471949.png" />,<img src="1513469586268.png" />])
+        cw(Pattern(<img src="1513487419688.png" />).targetOffset(-<span class="dig">55</span>,-<span class="dig">4</span>))
+        self.returnActivities()
+    @logging
+    <span class="kw">def</span> gacha(self):
+        cw(Pattern(<img src="1513487543532.png" />).targetOffset(<span class="dig">882</span>,<span class="dig">27</span>))
+        wi(<img src="1513487810838.png" />,[<img src="1513487744324.png" />,<img src="1538866753541.png" />,<img src="1538866879328.png" />,<img src="1538866889081.png" />,<img src="1513487792668.png" />,<img src="1544829910064.png" />,<img src="1544829920041.png" />],<span class="dig">1</span>)
+        wi(Pattern(<img src="1513487837137.png" />).targetOffset(-<span class="dig">66</span>,<span class="dig">0</span>),[<img src="1513487744324.png" />,<img src="1538866753541.png" />,<img src="1513487792668.png" />])
+        self.getActivities()
+    @logging
+    <span class="kw">def</span> sugoroku(self):
+        wi(<img src="1513607135866.png" />,[<img src="1521476485468.png" />],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> slotmachine(self):
+        wi(<img src="1513607135866.png" />,[Pattern(<img src="1535766653841.png" />).targetOffset(<span class="dig">2</span>,-<span class="dig">148</span>),[<img src="1535766698013.png" />,<img src="1535766724856.png" />]],<span class="dig">0</span>,<span class="dig">1000</span>)
+    @logging
+    <span class="kw">def</span> getruun(self):
+        wi(<img src="1513607135866.png" />,<img src="1535880654831.png" />,<span class="dig">0</span>,<span class="dig">10000</span>)
+    <span class="cmt">#今日の活動に戻る</span>
+    @logging
+    <span class="kw">def</span> returnActivities(self):
+        cw(<img src="1513473111992.png" />)
+        cw(<img src="1513438117134.png" />)
+    @logging
+    <span class="kw">def</span> getActivities(self):
+        <span class="kw">while</span> r.exists(<img src="1513467743212.png" />,<span class="dig">1</span>):
+            cw(<img src="1513612429849.png" />)
+            cw(<img src="1513467743212.png" />)
+
+
+<span class="kw">class</span> saocr(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1514120935786.png" />,<span class="dig">0.2</span>): self.start()
+        self.mail()
+        self.scout()
+        self.end()
+    @logging
+    <span class="kw">def</span> scout(self):
+        wi(<img src="1514686475018.png" />,[<img src="1514098928108.png" />,<img src="1529726858890.png" />])
+        <span class="kw">if</span> r.exists(<img src="1514098991124.png" />,<span class="dig">0.5</span>):
+            wi(<img src="1514099224492.png" />,[<img src="1514098991124.png" />,<img src="1514099023950.png" />,<img src="1514099063565.png" />])
+    @logging
+    <span class="kw">def</span> mail(self):
+        wi(Pattern(<img src="1514098886450.png" />).similar(<span class="dig">0.79</span>),[<img src="1514098721219.png" />,<img src="1514098824302.png" />,<img src="1514098837949.png" />,<img src="1514098849989.png" />])
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1515386423475.png" />,[<img src="1514098621634.png" />,Pattern(<img src="1514098659784.png" />).similar(<span class="dig">0.80</span>),Pattern(<img src="1514098684050.png" />).similar(<span class="dig">0.80</span>),<img src="1514098708076.png" />,<img src="1514098721219.png" />,<img src="1514333168502.png" />,Pattern(<img src="1515386402442.png" />).targetOffset(-<span class="dig">1</span>,-<span class="dig">34</span>)])
+        cw(Pattern(<img src="1515386456527.png" />).targetOffset(<span class="dig">1</span>,-<span class="dig">32</span>))
+
+<span class="kw">class</span> sevenknights(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="cmt">#"1515156923778.png"</span>
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1533946829170.png" />,<span class="dig">0.2</span>): self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">3</span>):
+            self.homeBack()
+            <span class="kw">if</span> r.exists(<img src="1533946829170.png" />,<span class="dig">0.2</span>): self.homeBack()
+            <span class="kw">if</span> r.exists(<img src="1515156972456.png" />,<span class="dig">0.2</span>): self.gacha()
+            <span class="kw">if</span> r.exists(<img src="1533947734607.png" />,<span class="dig">0.2</span>): self.mail()
+        <span class="cmt">#self.normalSp()</span>
+        self.eventSp()
+        self.end()
+    @logging
+    <span class="kw">def</span> normalSp(self):
+        self.homeBack()
+        wi(<img src="1524004703227.png" />,[<img src="1515199558394.png" />,Pattern(<img src="1515199571114.png" />).targetOffset(<span class="dig">4</span>,<span class="dig">101</span>),Pattern(<img src="1524004798741.png" />).targetOffset(-<span class="dig">1</span>,<span class="dig">73</span>),Pattern(<img src="1517014633148.png" />).targetOffset(<span class="dig">143</span>,<span class="dig">2</span>),<img src="1515200061859.png" />])
+        self.battle()
+        self.homeBack()
+    @logging
+    <span class="kw">def</span> eventSp(self):
+        self.homeBack()
+        wi(<img src="1517957755184.png" />,[<img src="1515199558394.png" />,Pattern(<img src="1515199571114.png" />).targetOffset(<span class="dig">4</span>,<span class="dig">101</span>),Pattern(<img src="1515199604750.png" />).targetOffset(-<span class="dig">1</span>,<span class="dig">73</span>),Pattern(<img src="1517014633148.png" />).targetOffset(<span class="dig">143</span>,<span class="dig">2</span>),<img src="1515200061859.png" />])
+        self.battle()
+        self.homeBack()
+    @logging
+    <span class="kw">def</span> homeBack(self):
+        wi(<img src="1533946829170.png" />,[<img src="1533948959273.png" />,<img src="1515199434786.png" />,<img src="1514595064266.png" />,<img src="1514595127137.png" />,<img src="1514595357675.png" />,Pattern(<img src="1533947207126.png" />).targetOffset(-<span class="dig">50</span>,-<span class="dig">50</span>),<img src="1515203653427.png" />,<img src="1514597396097.png" />,<img src="1515204425857.png" />])
+    @logging
+    <span class="kw">def</span> mail(self):
+        tc([<img src="1514595528583.png" />,<img src="1514595663597.png" />,<img src="1514595499218.png" />,<img src="1514595617932.png" />,<img src="1514595682569.png" />,<img src="1514595699831.png" />,<img src="1514595717880.png" />,Pattern(<img src="1533947207126.png" />).targetOffset(-<span class="dig">50</span>,-<span class="dig">50</span>),<img src="1533948478974.png" />,<img src="1533948638341.png" />,<img src="1514595357675.png" />],[<img src="1533947859793.png" />,<img src="1515156755969.png" />,<img src="1515156763291.png" />,<img src="1515156769129.png" />,<img src="1515156774991.png" />,<img src="1515156782683.png" />,<img src="1515156795042.png" />])
+        cw(<img src="1533948959273.png" />)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1514595247180.png" />,[<img src="1514595037472.png" />,<img src="1514595064266.png" />,<img src="1514595087865.png" />,Pattern(<img src="1514595127137.png" />).similar(<span class="dig">0.72</span>),Pattern(<img src="1514595155408.png" />).similar(<span class="dig">0.65</span>),Pattern(<img src="1514595171746.png" />).similar(<span class="dig">0.64</span>),<img src="1519164000387.png" />,<img src="1534074029070.png" />,<img src="1515204425857.png" />,<img src="1533948959273.png" />,<img src="1538779136688.png" />])
+    @logging
+    <span class="kw">def</span> gacha(self):
+        wi(Pattern(<img src="1514595383452.png" />).similar(<span class="dig">0.72</span>),[<img src="1514595304782.png" />,<img src="1515157020016.png" />,<img src="1521645416808.png" />,<img src="1514595335329.png" />,<img src="1514595346963.png" />,Pattern(<img src="1514595357675.png" />).similar(<span class="dig">0.80</span>),Pattern(<img src="1533947207126.png" />).targetOffset(-<span class="dig">50</span>,-<span class="dig">50</span>)])
+        cw(<img src="1533948959273.png" />)
+    @logging
+    <span class="kw">def</span> battle(self):
+        wi([<img src="1515207183144.png" />,<img src="1515205223587.png" />,<img src="1515203653427.png" />,<img src="1514597396097.png" />,<img src="1515204853526.png" />],[<img src="1514596079553.png" />,Pattern(<img src="1514596088856.png" />).similar(<span class="dig">0.85</span>),Pattern(<img src="1533947207126.png" />).targetOffset(-<span class="dig">50</span>,-<span class="dig">50</span>),<img src="1514596104402.png" />,<img src="1514596114401.png" />,<img src="1514596131086.png" />,<img src="1514596148295.png" />],<span class="dig">0</span>,<span class="dig">500</span>)
+    @logging
+    <span class="kw">def</span> arena(self):
+        wi(<img src="1515284632264.png" />,[<img src="1514596131086.png" />,<img src="1514596148295.png" />,<img src="1514596104402.png" />,<img src="1514596114401.png" />],<span class="dig">0</span>,<span class="dig">500</span>)
+
+
+<span class="kw">class</span> sirotennis(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1515153357118.png" />,<span class="dig">0.2</span>): self.start()
+        self.dreamgacha()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+            <span class="kw">if</span> r.exists(<img src="1515153562898.png" />,<span class="dig">0.2</span>): self.present()
+            <span class="kw">if</span> r.exists(<img src="1514101276154.png" />,<span class="dig">0.5</span>): self.ticketgacha()
+        self.end()
+
+    @logging
+    <span class="kw">def</span> dreamgacha(self):
+        wi(Pattern(<img src="1538227700603.png" />).exact(),[<img src="1538227814698.png" />,<img src="1538227632490.png" />,<img src="1538227651573.png" />,<img src="1514101683663.png" />])
+        cw(<img src="1515153153093.png" />)
+    @logging
+    <span class="kw">def</span> ticketgacha(self):
+        cw(<img src="1514101276154.png" />)
+        cw(<img src="1514101312570.png" />)
+        r.<span class="skw">dragDrop</span>(<img src="1514101486605.png" />, <img src="1514101569518.png" />)
+        wi(<img src="1537791078858.png" />,[<img src="1514101620370.png" />,<img src="1514101171629.png" />,<img src="1514101683663.png" />,<img src="1537790867226.png" />])
+    @logging
+    <span class="kw">def</span> present(self):
+        wi(<img src="1514101185802.png" />,[<img src="1514101119156.png" />,<img src="1514101132508.png" />,<img src="1514101143821.png" />,<img src="1514101154925.png" />,<img src="1514101171629.png" />,<img src="1537790867226.png" />,<img src="1514101683663.png" />])
+        cw(<img src="1514101211572.png" />)
+        cw(<img src="1514101223599.png" />)
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1515153100527.png" />,[<img src="1514100984579.png" />,<img src="1514101037231.png" />,<img src="1514101059142.png" />,<img src="1515681147229.png" />,<img src="1537790399116.png" />])
+        cw(<img src="1515153153093.png" />)
+
+<span class="kw">class</span> saomd(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+            <span class="kw">if</span> r.exists(Pattern(<img src="1514099601899.png" />).exact(),<span class="dig">0.2</span>): self.start()
+            <span class="kw">if</span> r.exists(Pattern(<img src="1514767928396.png" />).similar(<span class="dig">0.93</span>),<span class="dig">0.2</span>): self.giftGet()
+        self.end()
+    @logging
+    <span class="kw">def</span> giftGet(self):
+        cw(<img src="1514099832810.png" />)
+        cw(Pattern(<img src="1514099846019.png" />).similar(<span class="dig">0.79</span>))
+        cw(<img src="1514099863389.png" />)
+        cw(<img src="1514099888932.png" />)
+        wi(<img src="1514861679770.png" />,[<img src="1514099931737.png" />,<img src="1514099944199.png" />,<img src="1514099958950.png" />])
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1515083055939.png" />,[<img src="1514099554382.png" />,Pattern(<img src="1514099601899.png" />).exact(),<img src="1514099616019.png" />,<img src="1515083072289.png" />,Pattern(<img src="1543104625015.png" />).targetOffset(<span class="dig">149</span>,-<span class="dig">179</span>)])
+        cw(<img src="1515083087846.png" />)
+        self.comment()
+    @logging
+    <span class="kw">def</span> comment(self):
+        wi(<img src="1514860850009.png" />,[<img src="1514099681324.png" />,<img src="1514099699325.png" />,<img src="1514099727552.png" />])
+        wi(<img src="1514099681324.png" />,[<img src="1514099616019.png" />])
+
+
+<span class="kw">class</span> dereste(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1514098220129.png" />,[<img src="1514098022154.png" />,<img src="1514098048370.png" />,<img src="1514098179449.png" />,<img src="1514305962982.png" />,<img src="1514796497817.png" />])
+        wi(Pattern(<img src="1514098289136.png" />).similar(<span class="dig">0.84</span>).targetOffset(<span class="dig">6</span>,<span class="dig">72</span>),[<img src="1514098237783.png" />,<img src="1514098251492.png" />,<img src="1514098263024.png" />],<span class="dig">1</span>)
+        wi(<img src="1514098404810.png" />,[<img src="1514098339240.png" />,<img src="1514098358160.png" />,<img src="1514098370474.png" />,<img src="1519472616766.png" />])
+        self.end()
+    @logging
+    <span class="kw">def</span> live(self):
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">1000</span>):
+            r.<span class="skw">click</span>(Pattern(<img src="1514961450105.png" />).targetOffset(<span class="dig">0</span>,<span class="dig">72</span>))
+
+
+
+<span class="kw">class</span> kingdom(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.start()
+        wi([<img src="1514100091997.png" />,<img src="1514501231739.png" />],[<img src="1514310206628.png" />,<img src="1514100216842.png" />],<span class="dig">1</span>)
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1514862129087.png" />,[<img src="1514100059777.png" />,Pattern(<img src="1514100072432.png" />).targetOffset(-<span class="dig">107</span>,<span class="dig">254</span>),<img src="1514100091997.png" />,<img src="1514100116865.png" />,<img src="1514100137113.png" />,<img src="1514501167416.png" />,<img src="1514862098863.png" />])
+        wi(<img src="1515826351821.png" />,[<img src="1514862149012.png" />])
+
+
+
+
+
+
+
+<span class="kw">class</span> hosidra(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.start()
+        <span class="kw">for</span> i <span class="kw">in</span> range(<span class="dig">10</span>):
+            <span class="kw">if</span> r.exists(<img src="1513607135866.png" />,<span class="dig">0.2</span>): self.start()
+            <span class="kw">if</span> r.exists(<img src="1514502662539.png" />,<span class="dig">0.2</span>): self.freePresent()
+            <span class="kw">if</span> r.exists(<img src="1514104569564.png" />,<span class="dig">0.2</span>): self.freePresent()
+            <span class="kw">if</span> r.exists(<img src="1514679463885.png" />,<span class="dig">0.2</span>): self.mail()
+            cw(<img src="1514763812734.png" />)
+            cw(<img src="1514106678162.png" />)
+        self.end()
+    @logging
+    <span class="kw">def</span> start(self):
+        self.title_start()
+        wi(<img src="1514333829885.png" />,[<img src="1514502438115.png" />,<img src="1514104395782.png" />,<img src="1514104441735.png" />,<img src="1544395171380.png" />,<img src="1514104462786.png" />,<img src="1528415303028.png" />,<img src="1514333745001.png" />,<img src="1514333816500.png" />])
+        cw(<img src="1514106678162.png" />)
+    @logging
+    <span class="kw">def</span> mail(self):
+        wi(Pattern(<img src="1514679897716.png" />).similar(<span class="dig">0.80</span>),[<img src="1514106705160.png" />,<img src="1514106718545.png" />,Pattern(<img src="1515824788537.png" />).targetOffset(-<span class="dig">3</span>,<span class="dig">18</span>)])
+        cw(<img src="1514680008889.png" />)
+    @logging
+    <span class="kw">def</span> freePresent(self):
+        wi([<img src="1514104689475.png" />,<img src="1514502899099.png" />],[<img src="1514104441735.png" />,<img src="1514502662539.png" />,<img src="1514104569564.png" />,<img src="1514104598903.png" />,<img src="1514502735404.png" />,<img src="1514104617969.png" />,Pattern(<img src="1514104657164.png" />).targetOffset(<span class="dig">1</span>,<span class="dig">24</span>),<img src="1514502796169.png" />,<img src="1514502842564.png" />,<img src="1514502874899.png" />,<img src="1514502899099.png" />,[Pattern(<img src="1515825881533.png" />).targetOffset(-<span class="dig">1</span>,-<span class="dig">76</span>),Pattern(<img src="1515825915654.png" />).targetOffset(<span class="dig">62</span>,<span class="dig">42</span>)]],<span class="dig">1</span>)
+        cw(<img src="1514106678162.png" />)
+
+
+
+<span class="kw">class</span> casipro(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1514598050750.png" />,[<img src="1514597762440.png" />,<img src="1514597810123.png" />])
+        wi(<img src="1514598138210.png" />,[<img src="1514598107823.png" />,<img src="1514598178855.png" />])
+        r.<span class="skw">dragDrop</span>(Pattern(<img src="1514598223567.png" />).targetOffset(-<span class="dig">3</span>,-<span class="dig">79</span>), <img src="1514598270096.png" />)
+        cw(<img src="1514598374352.png" />)
+        cw(<img src="1514682515553.png" />)
+        wi(<img src="1514598435167.png" />,[<img src="1514598414947.png" />,<img src="1514598425778.png" />])
+        wi(<img src="1538228395889.png" />,[[Pattern(<img src="1538228232388.png" />).targetOffset(<span class="dig">106</span>,-<span class="dig">1</span>),Pattern(<img src="1538228258138.png" />).targetOffset(-<span class="dig">60</span>,<span class="dig">66</span>)]])
+        r.<span class="skw">dragDrop</span>(Pattern(<img src="1538228480448.png" />).targetOffset(<span class="dig">25</span>,<span class="dig">71</span>),Pattern(<img src="1538228513524.png" />).targetOffset(<span class="dig">4</span>,-<span class="dig">179</span>))
+        self.end()
+
+
+<span class="kw">class</span> update(base):
+
+    @logging
+    <span class="kw">def</span> main(self):
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1528412567156.png" />,<span class="dig">0.2</span>): self.title_start()
+        log(<span class="str">'step 1'</span>)
+        wi([<img src="1514504401050.png" />,<img src="1533946212677.png" />],[<img src="1514504371220.png" />,<img src="1533945867747.png" />,<img src="1514504383481.png" />,<img src="1514573055942.png" />,<img src="1543794472128.png" />,<img src="1533945895125.png" />,<img src="1530662620569.png" />,<img src="1533946072031.png" />])
+        log(<span class="str">'step 2'</span>)
+        wi(<img src="1514504304305.png" />,[<img src="1514504467513.png" />,Pattern(<img src="1528412915171.png" />).similar(<span class="dig">0.90</span>)])
+        self.end()
+
+<span class="kw">class</span> sinoalice(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1514500843851.png" />,[Pattern(<img src="1514500401722.png" />).targetOffset(-<span class="dig">130</span>,-<span class="dig">247</span>),<img src="1514500805611.png" />,<img src="1514500817012.png" />])
+        wi(<img src="1514500904648.png" />,[<img src="1514500868979.png" />,<img src="1514500881155.png" />,<img src="1514500892299.png" />,<img src="1514500817012.png" />])
+        self.end()
+
+
+<span class="kw">class</span> garupa(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1514101871469.png" />,[<img src="1514101803022.png" />,<img src="1514969808852.png" />,<img src="1514101824207.png" />,<img src="1525955068868.png" />,<img src="1514101858648.png" />,<img src="1514769309224.png" />,<img src="1514769335383.png" />,<img src="1514769348255.png" />,<img src="1525955188549.png" />])
+        wi(<img src="1514104258902.png" />,[<img src="1514104214558.png" />,<img src="1514104228893.png" />,<img src="1514104246514.png" />])
+        self.end()
+
+
+
+<span class="kw">class</span> jojodr(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi([<img src="1514310449893.png" />,<img src="1535869960221.png" />],[Pattern(<img src="1514100501931.png" />).targetOffset(-<span class="dig">927</span>,<span class="dig">418</span>),<img src="1514100545259.png" />,<img src="1514100569733.png" />,<img src="1535869889433.png" />,<img src="1544739808964.png" />])
+        wi(<img src="1514100673507.png" />,[<img src="1514100619444.png" />,<img src="1514100631835.png" />,<img src="1514100641272.png" />,<img src="1544739808964.png" />])
+        cw(<img src="1514100713332.png" />)
+        wi(<img src="1514100778252.png" />,[<img src="1514100725837.png" />,<img src="1514100736872.png" />,<img src="1514100747443.png" />])
+        self.end()
+
+
+
+<span class="kw">class</span> shadowverse(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1514089553344.png" />,[<img src="1514089378924.png" />,<img src="1523025068877.png" />,<img src="1514089394857.png" />,<img src="1514089439809.png" />,<img src="1514089454021.png" />,<img src="1514089498991.png" />,<img src="1514089519244.png" />])
+        wi(<img src="1514089622216.png" />,[Pattern(<img src="1514089608163.png" />).similar(<span class="dig">0.95</span>),<img src="1514089519244.png" />,<img src="1514572960078.png" />,<img src="1514572979884.png" />,<img src="1514572993269.png" />])
+        self.end()
+
+
+
+<span class="cmt">#バトガ</span>
+<span class="kw">class</span> battlegirl(base):
+    @logging
+    <span class="kw">def</span> main(self):
+        self.title_start()
+        wi(<img src="1513776114341.png" />,[<img src="1513776079816.png" />,<img src="1514138676901.png" />])
+        <span class="kw">if</span> cw(<img src="1513776173326.png" />):
+            cw(<img src="1513776192897.png" />)
+            cw(<img src="1513776207340.png" />)
+            cw(<img src="1513776223249.png" />)
+        self.end()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="cmt">#領域は左上のみとしておく。</span>
+r = Region(<span class="dig">0</span>,<span class="dig">0</span>,<span class="dig">1487</span>,<span class="dig">865</span>)
+<span class="cmt">#FindFailed例外を発生させない。</span>
+r.setThrowException(False)
+
+<span class="kw">def</span> restart():
+    log(<span class="str">'restart in'</span>)
+    cw(Pattern(<img src="1515167872914.png" />).targetOffset(<span class="dig">82</span>,<span class="dig">1</span>))
+    cw(Pattern(<img src="1515167921682.png" />).similar(<span class="dig">0.71</span>))
+    cw(<img src="1537967053814.png" />,clicktype=<span class="str">'double'</span>)
+    wi([<img src="1513607135866.png" />,<img src="1530983251892.png" />],[Pattern(<img src="1526772178429.png" />).exact().targetOffset(<span class="dig">425</span>,-<span class="dig">10</span>),<img src="1513488863086.png" />,<img src="1515168050107.png" />,<img src="1529968849204.png" />,<img src="1530983202901.png" />,Pattern(<img src="1531532220851.png" />).targetOffset(<span class="dig">111</span>,-<span class="dig">87</span>),Pattern(<img src="1541335375215.png" />).targetOffset(-<span class="dig">83</span>,<span class="dig">39</span>)],<span class="dig">0</span>,<span class="dig">500</span>)
+    cw(<img src="1537967053814.png" />,clicktype=<span class="str">'double'</span>)
+    log(<span class="str">'restart out'</span>)
+
+
+
+
+
+<span class="cmt">#タイトルクリック用</span>
+<span class="kw">def</span> title_cw(images):
+    <span class="kw">if</span> cw(<img src="1543123027844.png" />,<span class="dig">5</span>):
+        cw(Pattern(<img src="1543123053931.png" />).targetOffset(-<span class="dig">136</span>,-<span class="dig">13</span>))
+        cw(<img src="1543123096558.png" />)
+    <span class="kw">if</span> <span class="kw">not</span> cw(images,<span class="dig">10</span>):
+        cw(<img src="1515168050107.png" />)
+        <span class="kw">if</span> <span class="kw">not</span> cw(images,<span class="dig">10</span>):
+            cw(<img src="1513607135866.png" />)
+            <span class="kw">if</span> <span class="kw">not</span> cw(images,<span class="dig">10</span>):
+                wi(Pattern(<img src="1542337280094.png" />).similar(<span class="dig">0.98</span>).targetOffset(-<span class="dig">37</span>,<span class="dig">2</span>),[<img src="1542337258475.png" />,<img src="1542337269951.png" />,Pattern(<img src="1542337280094.png" />).targetOffset(-<span class="dig">37</span>,<span class="dig">2</span>)],<span class="dig">1</span>,<span class="dig">10</span>)
+                wi(<img src="1542337378450.png" />,[<img src="1515168050107.png" />,<img src="1542337973144.png" />],<span class="dig">0</span>,<span class="dig">10</span>)
+                cw(images,<span class="dig">10</span>)
+
+
+<span class="kw">def</span> appEnd():
+    cw(<img src="1513488863086.png" />)
+    cw(<img src="1515168050107.png" />)
+    <span class="kw">if</span> cw(<img src="1513607135866.png" />):
+        r.<span class="skw">wait</span>(<img src="1513775028471.png" />)
+    <span class="kw">else</span>:
+        <span class="cmt">#固まってる場合はnox再起動</span>
+        <span class="kw">if</span> <span class="kw">not</span> r.exists(<img src="1513775028471.png" />,<span class="dig">0.2</span>): restart()
+
+
+
+<span class="cmt">#タブ形式のプレゼントをまんべんなく取得して終わる処理（よく使うので二文字。tab clickの略）</span>
+<span class="kw">def</span> tc(getimages,tabimages,count=<span class="dig">3</span>):
+    <span class="cmt">#list型でなければlistに格納</span>
+    tabimages = castList(tabimages)
+    getimages = castList(getimages)
+    <span class="cmt">#配列数分画像をチェック（一周で終わり）</span>
+    <span class="kw">for</span> tabimage <span class="kw">in</span> tabimages:
+        <span class="cmt">#配列側の画像をclick</span>
+        <span class="kw">if</span> r.exists(tabimage,<span class="dig">0.2</span>):
+            r.<span class="skw">click</span>(tabimage)
+            <span class="kw">if</span> logView == <span class="dig">1</span> : log(<span class="str">'tc tab click! image:{0}'</span>.format(tabimage))
+        <span class="cmt">#毎タブ画像終了後に受取り画像があるかcount回チェック。毎日やってたら通常3回もやれば十分。</span>
+        <span class="kw">for</span> i <span class="kw">in</span> range(count):
+            <span class="kw">for</span> getimage <span class="kw">in</span> getimages:
+                <span class="kw">if</span> r.exists(getimage,<span class="dig">0.2</span>):
+                    r.<span class="skw">click</span>(getimage)
+                    <span class="kw">if</span> logView == <span class="dig">1</span> : log(<span class="str">'tc get click! image:{0}'</span>.format(getimage))
+    <span class="cmt">#基本的に1周するだけなので常にTrueを返す</span>
+    <span class="kw">return</span> True
+
+<span class="cmt">#特定の画像が出るまで指定されたclickを繰り返す処理（よく使うので二文字。while imageの略）</span>
+<span class="cmt">#imagesが2つの配列型であればdrag &amp; drop</span>
+<span class="kw">def</span> wi(baseimages,images,lastclick=<span class="dig">0</span>,count=<span class="dig">100</span>):
+    <span class="cmt">#list型でなければlistに格納</span>
+    <span class="cmt">#if logView == 1 : log('wi in')</span>
+    images = castList(images)
+    baseimages = castList(baseimages)
+    <span class="cmt">#繰り返し数。予期せぬ事になっても最悪○回で抜け出して次にスキップするようにする</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(count):
+        <span class="cmt">#if logView == 1 : log('for in list count')</span>
+        <span class="cmt">#配列数分画像をチェック</span>
+        <span class="kw">for</span> image <span class="kw">in</span> images:
+            <span class="cmt">#if logView == 1 : log('for in images count')</span>
+            <span class="cmt">#配列型であればdrag &amp; drop</span>
+            <span class="kw">if</span> isinstance(image, list) == True:
+                <span class="cmt">#if logView == 1 : log('image is list')</span>
+                <span class="kw">if</span> len(image) == <span class="dig">2</span>:
+                    r.<span class="skw">dragDrop</span>(image[<span class="dig">0</span>], image[<span class="dig">1</span>])
+            <span class="kw">else</span>:
+                <span class="cmt">#配列側の画像をclick</span>
+                <span class="kw">if</span> r.exists(image,<span class="dig">0.2</span>):
+                    <span class="cmt">#if logView == 1 : log('image exists')</span>
+                    r.<span class="skw">click</span>(image)
+                    <span class="kw">if</span> logView == <span class="dig">1</span> : log(<span class="str">'wi img click! image:{0}'</span>.format(image))
+                    <span class="cmt">#log('debug:wait{0}:image:{1}'.format(i,image))</span>
+                    <span class="cmt">#毎画像終了後に終了画像が出てるかチェック</span>
+                <span class="cmt">#else:</span>
+                     <span class="cmt">#if logView == 1 : log('wi img not find image:{0}'.format(image))</span>
+            <span class="kw">for</span> baseimage <span class="kw">in</span> baseimages:
+                <span class="kw">if</span> r.exists(baseimage,<span class="dig">0.2</span>):
+                    <span class="cmt">#if logView == 1 : log('baseimage is find')</span>
+                    <span class="cmt">#見つかっても一瞬の可能性があるので、1秒置いてもう一回確認</span>
+                    <span class="skw">sleep</span>(<span class="dig">1</span>)
+                    <span class="kw">if</span> r.exists(baseimage,<span class="dig">0.5</span>):
+                        <span class="cmt">#lastclickが1なら最後にclickして処理を戻る</span>
+                        <span class="kw">if</span> lastclick == <span class="dig">1</span>:
+                            r.<span class="skw">click</span>(baseimage)
+                            <span class="kw">if</span> logView == <span class="dig">1</span> : log(<span class="str">'wi baseclick! image:{0}'</span>.format(baseimage))
+                        <span class="kw">return</span> True
+    <span class="cmt">#最終的に見つからなければFalseを返す</span>
+    log(<span class="str">'wi unknown! wait:{0}:baseimage:{1}'</span>.format(i,baseimage))
+    <span class="kw">return</span> False
+
+
+<span class="cmt">#指定された画像が出たらクリック（click ＆ wait なのでcwだが、意味合い変わってきたな・・・）</span>
+<span class="cmt">#images:list or image</span>
+<span class="cmt">#count:何回繰り返すか。デフォルトは5回なので、5回で見つからなかったらfalseで返す。時間がかかるのが分かってる場合はこの回数を増やすこと。</span>
+<span class="cmt">#delay:1回のループあたりの間隔。繰り返しの負荷を下げたい場合は多くする。デフォルトは0.5秒。</span>
+<span class="kw">def</span> cw(images,count=<span class="dig">5</span>,delay=<span class="dig">0.5</span>,clicktype=<span class="str">'single'</span>):
+    <span class="cmt">#list型でなければlistに格納</span>
+    images = castList(images)
+    <span class="cmt">#配列数分画像をチェック</span>
+    <span class="kw">for</span> image <span class="kw">in</span> images:
+        <span class="kw">for</span> i <span class="kw">in</span> range(count):
+            <span class="kw">if</span> r.exists(image,delay):
+                <span class="kw">if</span> clicktype==<span class="str">'single'</span>: r.<span class="skw">click</span>(image)
+                <span class="kw">else</span>: r.<span class="skw">doubleClick</span>(image)
+                <span class="kw">if</span> logView == <span class="dig">1</span> : log(<span class="str">'cw img click! image:{0}'</span>.format(image))
+                <span class="kw">return</span> True
+    <span class="cmt">#最終的に見つからなければFalseを返す</span>
+    log(<span class="str">'cw unknown! wait:{0}:image:{1}'</span>.format(i,image))
+    <span class="kw">return</span> False
+
+<span class="kw">def</span> castList(images):
+    <span class="cmt">#list型でなければlistに格納（1つ目の階層のみ）</span>
+    <span class="kw">if</span> isinstance(images, list) == False:
+        images = [images]
+    <span class="kw">return</span> images
+
+
+
+
+
+<span class="kw">def</span> appStop():
+    <span class="kw">print</span>(<span class="str">"stop"</span>)
+
+
+
+
+
+appStart()
+</pre>
+</body>
+</html>
