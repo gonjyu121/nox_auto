@@ -15,12 +15,22 @@ Debug.setUserLogFile(getBundlePath()+"\log.sikuli\log.py")
 
 def appStart():
     #ピンポイントで実施したいメソッド（普段はコメントアウト）
-    #ffrk("1514089721092.png").eventloop()
-    #ffrk("1514089721092.png").normalDungeon()
-    #valcone("1514086348155.png").quest()
-    #valcone("1514086348155.png").tou()
-    #valcone("1514086348155.png").eventQuest()
-    #valcone("1514086348155.png").kourin()
+    #valcone("1514086348155.png","1549786366152.png").quest()
+    #valcone("1514086348155.png","1549786366152.png").tou()
+    #valcone("1514086348155.png","1549786366152.png").eventQuest()
+    #valcone("1514086348155.png","1549786366152.png").kourin()
+    #valcone("1514086348155.png","1549786366152.png").attack()
+    valcone("1514086348155.png","1549786366152.png").douga()
+    #for i in range(1000): valcone("1514086348155.png","1549786366152.png").raidbattle()
+    #sutarira(["1540625525349.png"]).risemara()
+    #sutarira(["1540625525349.png"]).quest()
+    #sutarira(["1540625525349.png"]).ibeboss()
+    #sutarira(["1540625525349.png"]).vsreview()
+    #sutarira(["1540625525349.png"]).chareview()
+    #sironeko("1513607135866.png").presentget()
+    #bassa("1538056210978.png").battlejyou()
+    #bassa("1538056210978.png").kyoutou()
+    #bassa("1538056210978.png").kyoutoubosyu()
     #sevenknights("1514594964037.png").battle()
     #sevenknights("1514594964037.png").arena()
     #ffbe("1514095893745.png").jigen()
@@ -39,17 +49,12 @@ def appStart():
     #browndust("1521942265355.png").hosi1up()
     #gansoku("1533429583435.png").battleloop()
     #unison("1513703784166.png").baikyaku()
-    #bassa("1538056210978.png").kyoutou()
-    #bassa("1538056210978.png").kyoutoubosyu()
     #sinsangokusi("1538301963645.png").risemara1()
     #sinsangokusi("1538301963645.png").risemara2()
     #musouzan("1538957758024.png").renzoku()
     #sganrowa("1514088600576.png").battle()
-    #sutarira(["1540625525349.png"]).risemara()
-    #sutarira(["1540625525349.png"]).quest()
-    #sutarira(["1540625525349.png"]).ibeboss()
-    #sutarira(["1540625525349.png"]).vsreview()
-
+    #ffrk("1514089721092.png").eventloop()
+    #ffrk("1514089721092.png").normalDungeon()
 
     #for i in range(1000):
         #wi(Pattern("1533430977054.png").targetOffset(13,83),"1533431036302.png")
@@ -76,7 +81,7 @@ def appStart():
         kingdom("1514100008070.png").main()
         garupa("1533429531697.png").main()
         sirotennis("1533426760265.png").main()
-        valcone(["1529732566850.png","1514086348155.png"]).main()
+        valcone(["1529732566850.png","1514086348155.png","1549786366152.png"]).main()
         priconne("1519560720548.png").main()
         sganrowa("1514088600576.png").main()
         shadowverse("1514089340415.png").main()
@@ -91,6 +96,13 @@ def appStart():
         browndust(["1521942265355.png","1545570599470.png"]).main()
         sinoalice("1533429571448.png").main()
         gurablue("1515926876498.png").main()
+
+
+
+class sironeko(base):
+    @logging
+    def presentget(self):
+        wi("1513607135866.png",["1546269346276.png","1546269356055.png","1546269367697.png"],0,5000)
 
 class ffbe(base):
     @logging
@@ -122,10 +134,13 @@ class sutarira(base):
         self.end()
     @logging
     def vsreview(self):
-        wi("1513607135866.png",["1544867711181.png","1544867723420.png","1541775319770.png",Pattern("1544867770144.png").similar(0.80),"1544868064301.png","1544868481103.png"],0,1000)
+        wi("1513607135866.png",["1544867711181.png",Pattern("1547255309904.png").targetOffset(-4,37),"1541775319770.png",Pattern("1544867770144.png").similar(0.80),"1544868064301.png",Pattern("1547255345751.png").targetOffset(137,1),"1544868481103.png"],0,10000)
+    @logging
+    def chareview(self):
+        wi("1513607135866.png",["1548503582437.png",Pattern("1548503609268.png").targetOffset(0,26),"1541775319770.png",Pattern("1544867770144.png").similar(0.80),"1544868064301.png",Pattern("1547255345751.png").targetOffset(137,1),"1544868481103.png"],0,1000)
     @logging
     def quest(self):
-        wi("1513607135866.png",[Pattern("1541775249511.png").targetOffset(31,57),"1541775271224.png",Pattern("1541775293607.png").targetOffset(6,104),"1541775319770.png","1541775372185.png",Pattern("1541775437080.png").similar(0.80),"1541775465490.png","1541775477972.png",Pattern("1541775558230.png").targetOffset(-290,0)],0,1000)
+        wi("1513607135866.png",[Pattern("1541775249511.png").targetOffset(31,57),"1541775271224.png",Pattern("1541775293607.png").targetOffset(6,104),"1541775319770.png","1541775372185.png",Pattern("1541775437080.png").similar(0.80),Pattern("1557359911867.png").targetOffset(-117,-4),"1541775477972.png",Pattern("1541775558230.png").targetOffset(-290,0)],0,1000)
     @logging
     def ibeboss(self):
         wi("1513607135866.png",["1545350035294.png",Pattern("1545350056626.png").similar(0.86),"1541775271224.png",Pattern("1541775293607.png").targetOffset(6,104),"1541775319770.png","1541775372185.png",Pattern("1541775437080.png").similar(0.80),Pattern("1545468065249.png").targetOffset(-111,0),"1541775477972.png",Pattern("1541775558230.png").targetOffset(-290,0)],0,1000)
@@ -223,11 +238,17 @@ class bassa(base):
         cw("1538190936108.png")
     @logging
     def kyoutou(self):
-        wi("1513607135866.png",["1538242816874.png",Pattern("1538242866408.png").similar(0.97),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),"1538823085514.png"],0,1000)
+        #wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1538242866408.png").similar(0.97),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),"1538823085514.png"],0,10000)
+        wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1556618638434.png").similar(0.77).targetOffset(40,11),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),Pattern("1556618739452.png").similar(0.93),"1538823085514.png",Pattern("1556618830746.png").targetOffset(-201,-36)],0,10000)
+        self.end()
+    @logging
+    def battlejyou(self):
+        wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1557105770883.png").similar(0.82),Pattern("1557105828016.png").targetOffset(117,102),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),Pattern("1556618739452.png").similar(0.93),"1538823085514.png",Pattern("1556618830746.png").targetOffset(-201,-36)],0,10000)
         self.end()
     @logging
     def kyoutoubosyu(self):
-        wi("1513607135866.png",["1538822604549.png","1538822618321.png","1538823085514.png",Pattern("1538822630644.png").similar(0.94),"1538242816874.png",Pattern("1538242944037.png").similar(0.98),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5)],0,1000)
+        #wi("1513607135866.png",["1538822604549.png","1538822618321.png",Pattern("1538822630644.png").similar(0.84),Pattern("1538822630644.png").similar(0.85),"1538242816874.png",Pattern("1538242944037.png").similar(0.98),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5),Pattern("1546569283081.png").targetOffset(-7,17)],0,1000)
+        wi("1513607135866.png",["1538822604549.png","1538822618321.png",Pattern("1551574901054.png").targetOffset(76,109),"1538242816874.png",Pattern("1538242944037.png").similar(0.93),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5),Pattern("1546569283081.png").targetOffset(-7,17)],0,1000)
         self.end()
 
 class gansoku(base):
@@ -306,10 +327,21 @@ class valcone(base):
         wi("1513607135866.png",["1514027256711.png","1514027326796.png","1514027366119.png","1514027386577.png","1514033257526.png","1514033271348.png",Pattern("1533456360127.png").similar(0.91)],0,5000)
     @logging
     def kourin(self):
-        wi("1513607135866.png",["1533588327031.png","1530034331226.png","1530034358403.png","1514027366119.png","1541915336023.png","1514027326796.png"],0,5000)
+        wi("1513607135866.png",["1530034331226.png","1530034358403.png","1514033257526.png","1514027366119.png","1541915336023.png","1514027326796.png"],0,5000)
     @logging
     def connect(self):
         wi("1514035331539.png",["1520080077400.png","1514033257526.png","1514027326796.png","1514027386577.png","1520087769909.png"],1)
+    @logging
+    def attack(self):
+        wi("1513607135866.png",["1546184763541.png","1546184779018.png","1514027326796.png","1530034358403.png","1514027366119.png","1514027386577.png","1514033257526.png","1514033271348.png","1546185121047.png","1546185375658.png"],0,5000)
+    @logging
+    def douga(self):
+        wi("1513607135866.png",["1556792237028.png","1556792247206.png",Pattern("1556979367504.png").targetOffset(66,-27),"1556792279999.png","1557240900273.png",Pattern("1556792328891.png").similar(0.90),"1556792488507.png","1556792549327.png",Pattern("1556792567612.png").similar(0.64),Pattern("1556792591897.png").targetOffset(113,87),"1556792627724.png","1557651204922.png"],10000)
+    @logging
+    def raidbattle(self):
+        wi("1553950776493.png",["1553950865349.png","1553948157416.png","1553948190753.png","1553948208393.png",Pattern("1553948241030.png").similar(0.82),"1514027326796.png","1553948229167.png",Pattern("1553948241030.png").similar(0.82),"1553948355500.png","1553948374486.png","1514027366119.png","1554075618855.png","1553948495408.png","1554077028446.png","1554077050983.png"],0,50000)
+        wi("1553948157416.png",["1553950852845.png","1553950865349.png"])
+
 
 class priconne(base):
     @logging
