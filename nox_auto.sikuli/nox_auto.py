@@ -8,7 +8,8 @@ Settings.UserLogPrefix = "#"
 Settings.UserLogTime = True
 Settings.ActionLogs=False #clickログなどを取らない
 # pythonにはsys.exit()があるが、SikuliXの内部初期化のためにexit()を使わなくてはならない。
-sys.path.append(getBundlePath()+"\module.sikuli")
+# sys.path.append(getBundlePath()+"\module.sikuli")
+addImportPath = getBundlePath()+"\module.sikuli"
 import module
 from module import *
 Debug.setUserLogFile(getBundlePath()+"\log.sikuli\log.py")
@@ -69,34 +70,35 @@ def appStart():
         #本編ここから
         #sansuma(["1513607283682.png","1513489998537.png"]).main()
         #hit("1533429551473.png").main()
-        musouzan(["1538957758024.png","1545570633024.png"]).main()
-        casipro("1533429561894.png").main()
-        linerevo(["1513555048596.png","1513489981954.png"]).main()
+        #gansoku("1533429583435.png").main()
+        sganrowa(["1514088600576.png","1552228556493.png"]).main()
+        battlegirl(["1513776003005.png","1552228600790.png"]).main()
+        unison(["1513703784166.png","1552228622071.png"]).main()
+        jojodr(["1539428915641.png","1539428931995.png","1552228635805.png"]).main()
+        ffrk(["1514089721092.png","1542758637555.png","1552228647916.png"]).main()
+        dereste(["1514097927025.png","1552228665988.png"]).main()
+        bassa(["1538056210978.png","1552179387245.png"]).main()
+        hosidra(["1514104334655.png","1529732868458.png","1552228691440.png"]).main()
+        ffbe(["1514095893745.png","1552228706517.png"]).main()
+        browndust(["1521942265355.png","1545570599470.png","1552228718341.png"]).main()
+        sinoalice(["1533429571448.png","1552182491765.png"]).main()
+        gurablue(["1515926876498.png","1552182820844.png","1552182840952.png"]).main()
+        musouzan(["1538957758024.png","1545570633024.png","1552227127053.png"]).main()
+        casipro(["1533429561894.png","1552228067876.png"]).main()
+        linerevo(["1513555048596.png","1513489981954.png","1552228348497.png"]).main()
         update("1514504304305.png").main()
-        sevenknights("1514594964037.png").main()
-        sinsangokusi("1538301963645.png").main()
-        gansoku("1533429583435.png").main()
-        saoif("1514598609335.png").main()
-        orusaga(["1513606032856.png","1513490040130.png"]).main()
-        saomd("1514099499297.png").main()
-        kingdom("1514100008070.png").main()
-        garupa("1533429531697.png").main()
-        sirotennis("1533426760265.png").main()
-        valcone(["1529732566850.png","1514086348155.png","1549786366152.png"]).main()
-        priconne("1519560720548.png").main()
-        sganrowa("1514088600576.png").main()
-        shadowverse("1514089340415.png").main()
-        battlegirl("1513776003005.png").main()
-        unison("1513703784166.png").main()
-        jojodr(["1539428915641.png","1539428931995.png"]).main()
-        bassa("1538056210978.png").main()
-        ffrk(["1514089721092.png","1542758637555.png"]).main()
-        dereste("1514097927025.png").main()
-        hosidra(["1514104334655.png","1529732868458.png"]).main()
-        ffbe("1514095893745.png").main()
-        browndust(["1521942265355.png","1545570599470.png"]).main()
-        sinoalice("1533429571448.png").main()
-        gurablue("1515926876498.png").main()
+        sevenknights(["1514594964037.png","1552228364190.png"]).main()
+        valcone(["1529732566850.png","1514086348155.png","1552228375552.png"]).main()
+        sinsangokusi(["1538301963645.png","1552228399494.png"]).main()
+        saoif(["1514598609335.png","1552228414559.png"]).main()
+        orusaga(["1513606032856.png","1513490040130.png","1552228444510.png"]).main()
+        shadowverse(["1514089340415.png","1552228576104.png"]).main()
+        garupa(["1533429531697.png","1552228501232.png"]).main()
+        saomd(["1514099499297.png","1552228465807.png"]).main()
+        kingdom(["1514100008070.png","1552228483295.png"]).main()
+        sirotennis(["1533426760265.png","1552228521105.png"]).main()
+        priconne(["1519560720548.png","1552228537743.png"]).main()
+
 
 
 
@@ -168,10 +170,16 @@ class sutarira(base):
 class sganrowa(base):
     @logging
     def main(self):
-        self.title_start()
-        wi("1514089151050.png",["1514089054121.png","1514089071531.png","1514089108565.png","1514299216376.png","1544948521272.png","1544948555208.png"])
-        wi("1514089252064.png",["1514089206217.png","1514089224604.png","1514089238732.png"])
+        if not r.exists(Pattern("1557138818543.png").similar(0.79),0.2): self.start()
+        self.presents()
         self.end()
+    @logging
+    def start(self):
+        self.title_start()
+        wi(Pattern("1557138818543.png").similar(0.79),["1557138710610.png","1514089054121.png","1514089071531.png","1514089108565.png","1514299216376.png","1544948521272.png","1544948555208.png","1557138774922.png"])
+    @logging
+    def presents(self):
+        wi("1514089252064.png",["1514089206217.png","1557138912912.png","1514089224604.png","1514089238732.png"])
     @logging
     def battle(self):
         wi("1513607135866.png",[Pattern("1540081677477.png").similar(0.80).targetOffset(-2,-24),Pattern("1540081713087.png").similar(0.94),"1540081755647.png","1540081773559.png",Pattern("1540081805970.png").targetOffset(17,4),"1540081835761.png",Pattern("1540081852889.png").targetOffset(-1,-18),Pattern("1540082099410.png").targetOffset(0,-22),Pattern("1540082144117.png").similar(0.72),"1540082951468.png",Pattern("1540083059587.png").similar(0.94),Pattern("1540083020221.png").similar(0.91)])
@@ -181,6 +189,7 @@ class sganrowa(base):
 class musouzan(base):
     @logging
     def main(self):
+        if not r.exists("1538910047584.png",0.2): self.start()
         self.story()
         self.end()
     @logging
@@ -189,7 +198,13 @@ class musouzan(base):
     @logging
     def renzoku(self): 
         wi("1513607135866.png",["1539010070414.png","1538958022519.png","1539010089079.png","1539010125777.png","1539010146637.png","1538958022519.png","1539010163979.png","1539011410036.png","1539014954295.png",Pattern("1539012944630.png").targetOffset(133,-68)],0,1000)
-    
+    @logging
+    def start(self):
+        self.title_start()
+        wi("1552227430305.png",["1552227289269.png"],1)
+        wi(Pattern("1552227905745.png").similar(0.75),[Pattern("1552227508566.png").targetOffset(49,63),"1552227540417.png",Pattern("1552227562773.png").similar(0.76).targetOffset(37,38)],0,20)
+        wi(Pattern("1552227905745.png").similar(0.75),["1552227822634.png"],0)
+
 
 class sinsangokusi(base):
     @logging
@@ -443,8 +458,8 @@ class hit(base):
 class browndust(base):
     @logging
     def main(self):
-        if not r.exists("1521942819449.png",0.2): self.start()
-        for i in range(self.loop):
+        if not r.exists("1552180945673.png",0.2): self.start()
+        for i in range(3):
             if r.exists("1522990744816.png",0.2): self.mission()
             if r.exists("1522987917944.png",0.2): self.roulette()
             if r.exists(Pattern("1522988104546.png").similar(0.80),0.2): self.guild()
@@ -454,31 +469,31 @@ class browndust(base):
         self.end()
     @logging
     def mail(self):
-        wi("1513607135866.png",["1523002714578.png","1523003201082.png","1523051512924.png"],0,10)
-        wi("1521942819449.png",["1523051552505.png"])
+        wi("1513607135866.png",["1523002714578.png","1523003201082.png","1523051512924.png"],0,5)
+        wi("1552180945673.png",["1523051552505.png"])
     @logging
     def sinpi(self):
         #20回繰り返し
-        wi("1513607135866.png",["1522988454989.png",Pattern("1522988473340.png").targetOffset(3,159),Pattern("1523052086721.png").targetOffset(-24,24),"1522988522438.png",Pattern("1522988551606.png").targetOffset(69,11),Pattern("1523052266112.png").targetOffset(107,46),"1522988593556.png"],0,20)
-        wi("1521942819449.png",["1522989183477.png"])
+        wi("1513607135866.png",["1522988454989.png",Pattern("1522988473340.png").targetOffset(3,159),"1546505404960.png",Pattern("1523052086721.png").targetOffset(-24,24),"1522988522438.png",Pattern("1522988551606.png").targetOffset(69,11),Pattern("1523052266112.png").targetOffset(107,46),"1522988593556.png"],0,10)
+        wi("1552180945673.png",["1522989183477.png","1546505458831.png"])
     @logging
     def battle(self):
-        wi([Pattern("1522990412384.png").similar(0.75),"1523314154410.png","1523669312016.png"],["1522988454989.png",Pattern("1522989259407.png").targetOffset(2,160),"1522989303755.png","1522989317155.png","1523052803358.png","1523224950909.png",Pattern("1522988551606.png").targetOffset(69,11)])
-        wi("1521942819449.png",["1522990451287.png","1522990496603.png","1523669349240.png"])
+        wi([Pattern("1522990412384.png").similar(0.75),"1523314154410.png","1523669312016.png"],["1522988454989.png",Pattern("1522989259407.png").targetOffset(2,160),"1552181126137.png","1522989303755.png","1522989317155.png","1523052803358.png","1523224950909.png",Pattern("1522988551606.png").targetOffset(69,11)])
+        wi("1552180945673.png",["1522990451287.png","1522990496603.png","1523669349240.png"])
     @logging
     def guild(self):
         #10回繰り返し
-        wi("1513607135866.png",["1522988160149.png","1522988179102.png",Pattern("1522988194370.png").similar(0.80)],0,10)
+        wi("1513607135866.png",["1522988160149.png","1522988179102.png",Pattern("1522988194370.png").similar(0.80)],0,5)
         cw("1522988350053.png")
     @logging
     def roulette(self):
         #10回繰り返し
-        wi("1522988035598.png",["1522987983874.png","1522987995326.png","1522988014858.png","1522990556210.png"],0,10)
-        cw(Pattern("1521942711364.png").similar(0.77))
+        wi("1522988035598.png",["1522987983874.png","1522987995326.png","1522988014858.png","1522990556210.png"],0,5)
+        cw(Pattern("1521942711364.png").similar(0.78))
     @logging
     def mission(self):
         #10回繰り返し
-        wi("1513607135866.png",["1522990805222.png"],0,10)
+        wi("1513607135866.png",["1522990805222.png"],0,5)
     @logging
     def missionloop(self):
         wi("1513607135866.png",["1521945703888.png","1521945743676.png","1521945757164.png","1539475237456.png",Pattern("1539476021424.png").similar(0.95),"1521946079949.png","1539477706823.png","1521946218162.png","1521956484177.png","1521956521674.png","1521956574331.png",Pattern("1521968543059.png").similar(0.90),"1525001510768.png"],0,1000)
@@ -494,7 +509,7 @@ class browndust(base):
     @logging
     def start(self):
         self.title_start()
-        wi("1521942819449.png",[Pattern("1521942711364.png").similar(0.77),Pattern("1521942741927.png").targetOffset(-83,4)])
+        wi("1552180945673.png",[Pattern("1521942711364.png").similar(0.78),Pattern("1521942741927.png").targetOffset(-83,4)])
 
 
 class saoif(base):
@@ -528,7 +543,7 @@ class gurablue(base):
     @logging
     def start(self):
         self.title_start()
-        wi("1517962201170.png",["1519382499359.png","1517962219693.png","1515926982495.png","1516344318302.png",Pattern("1516344338257.png").similar(0.94),"1516369763563.png",Pattern("1516572590119.png").similar(0.76),"1516630202645.png","1517962085076.png"])
+        wi("1517962201170.png",["1519382499359.png","1517962219693.png","1515926982495.png","1516344318302.png",Pattern("1516344338257.png").similar(0.94),"1516369763563.png",Pattern("1516572590119.png").similar(0.76),"1516630202645.png","1517962085076.png","1552183016669.png",Pattern("1552183110644.png").targetOffset(34,-540)])
     @logging
     def present(self):
         cw("1519382802371.png")
@@ -964,13 +979,13 @@ class casipro(base):
     @logging
     def main(self):
         self.title_start()
-        wi("1514598050750.png",["1514597762440.png","1514597810123.png"])
+        wi("1514598050750.png",["1514597762440.png","1552228168922.png","1514597810123.png"])
         wi("1514598138210.png",["1514598107823.png","1514598178855.png"])
         r.dragDrop(Pattern("1514598223567.png").targetOffset(-3,-79), "1514598270096.png")
         cw("1514598374352.png")
         cw("1514682515553.png")
-        wi("1514598435167.png",["1514598414947.png","1514598425778.png"])
-        wi("1538228395889.png",[[Pattern("1538228232388.png").targetOffset(106,-1),Pattern("1538228258138.png").targetOffset(-60,66)]])
+        wi("1514598435167.png",["1514598414947.png","1514598425778.png"],1)
+        wi("1538228395889.png",[[Pattern("1538228232388.png").targetOffset(106,-1),Pattern("1538228258138.png").targetOffset(-60,66)],"1514598435167.png"])
         r.dragDrop(Pattern("1538228480448.png").targetOffset(25,71),Pattern("1538228513524.png").targetOffset(4,-179))
         self.end()
         
@@ -999,7 +1014,7 @@ class garupa(base):
     @logging
     def main(self):
         self.title_start()
-        wi("1514101871469.png",["1514101803022.png","1514969808852.png","1514101824207.png","1525955068868.png","1514101858648.png","1514769309224.png","1514769335383.png","1514769348255.png","1525955188549.png"])
+        wi("1514101871469.png",["1514101803022.png","1514969808852.png","1514101824207.png","1525955068868.png","1514101858648.png","1514769309224.png","1514769335383.png","1514769348255.png","1525955188549.png","1552486766339.png"])
         wi("1514104258902.png",["1514104214558.png","1514104228893.png","1514104246514.png"])
         self.end()
 
@@ -1021,7 +1036,7 @@ class shadowverse(base):
     @logging
     def main(self):
         self.title_start()
-        wi("1514089553344.png",["1514089378924.png","1523025068877.png","1514089394857.png","1514089439809.png","1514089454021.png","1514089498991.png","1514089519244.png"])
+        wi("1514089553344.png",["1514089378924.png","1523025068877.png","1514089394857.png","1514089439809.png","1514089454021.png","1514089498991.png","1514089519244.png","1552696028450.png"])
         wi("1514089622216.png",[Pattern("1514089608163.png").similar(0.95),"1514089519244.png","1514572960078.png","1514572979884.png","1514572993269.png"])
         self.end()
 
