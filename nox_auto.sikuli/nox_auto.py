@@ -20,7 +20,7 @@ def appStart():
     #valcone("1514086348155.png","1549786366152.png").eventQuest()
     #valcone("1514086348155.png","1549786366152.png").kourin()
     #valcone("1514086348155.png","1549786366152.png").attack()
-    valcone("1514086348155.png","1549786366152.png").douga()
+    #valcone("1514086348155.png","1549786366152.png").douga()
     #for i in range(1000): valcone("1514086348155.png","1549786366152.png").raidbattle()
     #sutarira(["1540625525349.png"]).risemara()
     #sutarira(["1540625525349.png"]).quest()
@@ -28,8 +28,9 @@ def appStart():
     #sutarira(["1540625525349.png"]).vsreview()
     #sutarira(["1540625525349.png"]).chareview()
     #sironeko("1513607135866.png").presentget()
-    #bassa("1538056210978.png").battlejyou()
-    #bassa("1538056210978.png").kyoutou()
+    #bassa("1538056210978.png").battle_jyo()
+    #bassa("1538056210978.png").kyoutou_syo()
+    bassa("1538056210978.png").kyoutou_tyu()
     #bassa("1538056210978.png").kyoutoubosyu()
     #sevenknights("1514594964037.png").battle()
     #sevenknights("1514594964037.png").arena()
@@ -237,18 +238,20 @@ class bassa(base):
         wi("1538190910786.png",["1538190830308.png","1538190845214.png","1538190859587.png","1538190877152.png","1538190893235.png"])
         cw("1538190936108.png")
     @logging
-    def kyoutou(self):
-        #wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1538242866408.png").similar(0.97),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),"1538823085514.png"],0,10000)
-        wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1556618638434.png").similar(0.77).targetOffset(40,11),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),Pattern("1556618739452.png").similar(0.93),"1538823085514.png",Pattern("1556618830746.png").targetOffset(-201,-36)],0,10000)
-        self.end()
+    def kyoutou_syo(self):
+        wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1538242866408.png").similar(0.97),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),"1538823085514.png"],0,10000)
     @logging
-    def battlejyou(self):
+    def kyoutou_tyu(self):
+        wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1556618638434.png").similar(0.77).targetOffset(40,11),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),Pattern("1556618739452.png").similar(0.93),"1538823085514.png",Pattern("1556618830746.png").targetOffset(-201,-36),Pattern("1558969334903.png").targetOffset(125,-15),"1558969389177.png"],0,10000)
+    @logging
+    def battle_jyo(self):
         wi("1513607135866.png",["1538242816874.png","1555840921035.png",Pattern("1557105770883.png").similar(0.82),Pattern("1557105828016.png").targetOffset(117,102),"1538242895851.png","1538242906915.png",Pattern("1538242944037.png").similar(0.98),Pattern("1556618739452.png").similar(0.93),"1538823085514.png",Pattern("1556618830746.png").targetOffset(-201,-36)],0,10000)
         self.end()
     @logging
     def kyoutoubosyu(self):
+        wi("1513607135866.png",["1538822604549.png","1538822618321.png",Pattern("1558360240017.png").similar(0.91),"1538242816874.png",Pattern("1538242944037.png").similar(0.98),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5),Pattern("1546569283081.png").targetOffset(-7,17)],0,1000)
         #wi("1513607135866.png",["1538822604549.png","1538822618321.png",Pattern("1538822630644.png").similar(0.84),Pattern("1538822630644.png").similar(0.85),"1538242816874.png",Pattern("1538242944037.png").similar(0.98),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5),Pattern("1546569283081.png").targetOffset(-7,17)],0,1000)
-        wi("1513607135866.png",["1538822604549.png","1538822618321.png",Pattern("1551574901054.png").targetOffset(76,109),"1538242816874.png",Pattern("1538242944037.png").similar(0.93),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5),Pattern("1546569283081.png").targetOffset(-7,17)],0,1000)
+        #wi("1513607135866.png",["1538822604549.png","1538822618321.png",Pattern("1551574901054.png").targetOffset(76,109),"1538242816874.png",Pattern("1538242944037.png").similar(0.93),Pattern("1538822987395.png").similar(0.85).targetOffset(-314,5),Pattern("1546569283081.png").targetOffset(-7,17)],0,1000)
         self.end()
 
 class gansoku(base):
