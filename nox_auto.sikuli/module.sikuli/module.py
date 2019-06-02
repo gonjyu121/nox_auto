@@ -5,6 +5,7 @@ from sikuli import *
 from datetime import datetime
 
 addImagePath(getBundlePath()+"\module.sikuli")
+     
 logView = 1
 
 # %Y/%m/%d %H:%M:%S.%f

@@ -10,9 +10,12 @@ Settings.ActionLogs=False #clickログなどを取らない
 # pythonにはsys.exit()があるが、SikuliXの内部初期化のためにexit()を使わなくてはならない。
 # sys.path.append(getBundlePath()+"\module.sikuli")
 addImportPath = getBundlePath()+"\module.sikuli"
+addImagePath(getBundlePath()+"\module.sikuli")
 import module
 from module import *
 Debug.setUserLogFile(getBundlePath()+"\log.sikuli\log.py")
+
+
 
 def appStart():
     #ピンポイントで実施したいメソッド（普段はコメントアウト）
