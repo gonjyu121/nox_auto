@@ -4,7 +4,7 @@ import inspect
 from sikuli import *
 from datetime import datetime
 
-addImagePath(getBundlePath())
+addImagePath(getBundlePath()+"\module.sikuli")
 logView = 1
 
 # %Y/%m/%d %H:%M:%S.%f
@@ -29,6 +29,7 @@ class base():
     def end(self):
         appEnd()
 
+    @logging
     def title_start(self):
         title_cw(self.title)
 
@@ -37,7 +38,7 @@ def log(str):
     #print('{0} {1}'.format(datetime.now().strftime("%Y/%m/%d %H:%M:%S.%f"),str))
     lognew = datetime.now()
     print("{} {}".format(lognew.strftime("%Y/%m/%d %H:%M:%S.%f"),str))
-    Debug.user("{} {}".format(lognew.strftime("%f"),str))
+    #Debug.user("{} {}".format(lognew.strftime("%f"),str))
 
 
 #領域は左上のみとしておく。
@@ -48,29 +49,28 @@ r.setThrowException(False)
 
 #タイトルクリック用
 def title_cw(images):
-    if cw("1543123027844.png",5):
+    if cw("1543123027844.png"):
         cw(Pattern("1543123053931.png").targetOffset(-136,-13))
         cw("1543123096558.png")
     if not cw(images,10):
         cw("1515168050107.png")
         if not cw(images,10):
-            cw("1513607135866.png")
+            wi("1513607135866.png",["1552182330992.png",[Pattern("1515168050107.png").targetOffset(-91,-185),Pattern("1515168050107.png").targetOffset(-999,-189)],"1552182330992.png"],1,10)
             if not cw(images,10):
                 wi(Pattern("1542337280094.png").similar(0.98).targetOffset(-37,2),["1542337258475.png","1542337269951.png",Pattern("1542337280094.png").targetOffset(-37,2)],1,10)
                 wi("1542337378450.png",["1515168050107.png","1542337973144.png"],0,10)
                 cw(images,10)
 
-
 def restart():
     log('restart in')
-    cw(Pattern("1515167872914.png").targetOffset(82,1))
+    cw(Pattern("1548374567129.png").targetOffset(97,1))
+    cw(Pattern("1552150350557.png").targetOffset(77,1))
     cw(Pattern("1515167921682.png").similar(0.71))
     cw("1544975857496.png")
-    cw("1537967053814.png",clicktype='double')
+    cw(Pattern("1552226712677.png").targetOffset(0,-15),clicktype='double')
     wi(["1513607135866-1.png","1530983251892.png"],[Pattern("1526772178429.png").exact().targetOffset(425,-10),"1513488863086.png","1544950061895.png","1515168050107-1.png","1529968849204.png","1530983202901.png",Pattern("1531532220851.png").targetOffset(111,-87),Pattern("1541335375215.png").targetOffset(-83,39)],0,500)
-    cw("1537967053814.png",clicktype='double')
+    cw(Pattern("1552226712677.png").targetOffset(0,-15),clicktype='double')
     log('restart out')
-
 
 def appEnd():
     cw("1544950061895.png")
