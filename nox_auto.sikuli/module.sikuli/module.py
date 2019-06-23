@@ -50,17 +50,17 @@ r.setThrowException(False)
 
 #タイトルクリック用
 def title_cw(images):
-    if cw("1543123027844.png"):
-        cw(Pattern("1543123053931.png").targetOffset(-136,-13))
-        cw("1543123096558.png")
-    if not cw(images,10):
+    if not cw(images,5):
         cw("1515168050107.png")
-        if not cw(images,10):
+        if not cw(images,5):
             wi("1513607135866.png",["1552182330992.png",[Pattern("1515168050107.png").targetOffset(-91,-185),Pattern("1515168050107.png").targetOffset(-999,-189)],"1552182330992.png"],1,10)
             if not cw(images,10):
                 wi(Pattern("1542337280094.png").similar(0.98).targetOffset(-37,2),["1542337258475.png","1542337269951.png",Pattern("1542337280094.png").targetOffset(-37,2)],1,10)
                 wi("1542337378450.png",["1515168050107.png","1542337973144.png"],0,10)
                 cw(images,10)
+    if cw("1543123027844.png",2):
+        cw(Pattern("1543123053931.png").targetOffset(-136,-13))
+        cw("1543123096558.png")
 
 def restart():
     log('restart in')
